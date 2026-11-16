@@ -76,7 +76,7 @@ export function TrackLegend() {
         {t('round.legendOvertake')}
       </li>
       <li className="flex items-center gap-2">
-        <span className="h-3.5 w-1 bg-fg" aria-hidden="true" />
+        <span className="h-4 w-1 bg-fg" aria-hidden="true" />
         {t('round.legendStart')}
       </li>
     </ul>

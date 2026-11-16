@@ -5,7 +5,7 @@ test('se puede recorrer la temporada: inicio → calendario → ronda → piloto
   page.on('pageerror', (e) => errors.push(e.message));
 
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Tu campeonato');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('desde el muro');
 
   await page.getByRole('navigation', { name: 'Navegación principal' }).first().getByRole('link', { name: 'Calendario' }).click();
   await expect(page.getByRole('heading', { level: 1, name: 'Calendario' })).toBeVisible();

@@ -41,7 +41,7 @@ function LanguageSwitch() {
  */
 function SeasonTicks() {
   return (
-    <div className="flex h-[3px] gap-px" aria-hidden="true">
+    <div className="flex h-1 gap-px" aria-hidden="true">
       {calendar.rounds.map((round) => (
         <span key={round.round} className={`flex-1 ${round.round <= results.lastRound ? 'bg-fg-3' : 'bg-ink-800'}`} />
       ))}
@@ -71,7 +71,7 @@ export function Layout() {
           <Link to="/" className="flex items-center gap-3">
             <SectorMark />
             <span className="display text-[0.9375rem] tracking-normal">{t('app.name')}</span>
-            <span className="num hidden text-xs text-fg-4 sm:inline">{SEASON}</span>
+            <span className="num hidden text-xs text-fg-3 sm:inline">{SEASON}</span>
           </Link>
           <nav aria-label={t('nav.main')} className="hidden items-stretch gap-6 md:flex">
             {NAV.map((item) => (
@@ -101,7 +101,7 @@ export function Layout() {
             {t('app.name')} {SEASON}
           </p>
           <p className="label num">
-            R{String(results.lastRound).padStart(2, '0')} / {calendar.rounds.length}
+            R{results.lastRound} / {calendar.rounds.length}
           </p>
         </div>
       </footer>

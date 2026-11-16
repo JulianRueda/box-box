@@ -51,9 +51,9 @@ export function Home() {
         )}
 
         <p className="label reveal mb-6">{t('home.kicker', { round: last })}</p>
-        <h1 className="display text-[clamp(2.25rem,7.4vw,7rem)]">
-          <span className="reveal block text-fg-4" style={stagger(1)}>{t('home.title1')}</span>
-          <span className="reveal block text-fg-4" style={stagger(2)}>{t('home.title2')}</span>
+        <h1 className="display text-[clamp(2rem,6.6vw,6.25rem)]">
+          <span className="reveal block text-fg-3" style={stagger(1)}>{t('home.title1')}</span>
+          <span className="reveal block text-fg-3" style={stagger(2)}>{t('home.title2')}</span>
           <span className="reveal block" style={stagger(3)}>{t('home.title3')}</span>
         </h1>
 
@@ -73,7 +73,7 @@ export function Home() {
           <div className="panel bracket reveal min-w-0" style={stagger(5)}>
             <p className="label flex items-center justify-between border-b border-line px-4 py-3">
               {t('home.leader')}
-              <span className="num">R{String(last).padStart(2, '0')}</span>
+              <span className="num">R{last}</span>
             </p>
             <ol>
               {table.slice(0, 5).map((row) => {
@@ -87,7 +87,7 @@ export function Home() {
                       <span className="h-5 w-1 bg-(--team)" aria-hidden="true" />
                       <span className="cond text-lg">{driver.code}</span>
                       <span className="truncate text-sm text-fg-2">{driverName(driver)}</span>
-                      <span className="num text-xs text-fg-4">{row.position === 1 ? '' : `−${leaderPoints - row.points}`}</span>
+                      <span className="num text-xs text-fg-3">{row.position === 1 ? '' : `−${leaderPoints - row.points}`}</span>
                       <span className="num text-right font-semibold">{row.points}</span>
                     </Link>
                   </li>
@@ -135,17 +135,17 @@ export function Home() {
           {MODES.map((mode, i) => {
             const body = (
               <>
-                <span className="num text-sm text-fg-4">{String(i + 1).padStart(2, '0')}</span>
+                <span className="num text-sm text-fg-3">{i + 1}</span>
                 <span className="min-w-0">
-                  <span className={`display block text-[clamp(1.375rem,3.4vw,3rem)] ${mode.key === 'quick' ? '' : 'text-fg-4'}`}>{t(`home.mode.${mode.key}.title`)}</span>
-                  <span className={`mt-2 block text-sm md:hidden ${mode.key === 'quick' ? 'text-fg-3' : 'text-fg-4'}`}>{t(`home.mode.${mode.key}.text`)}</span>
+                  <span className={`display block text-[clamp(1.375rem,3.4vw,3rem)] ${mode.key === 'quick' ? '' : 'text-fg-3'}`}>{t(`home.mode.${mode.key}.title`)}</span>
+                  <span className={`mt-2 block text-sm md:hidden ${mode.key === 'quick' ? 'text-fg-3' : 'text-fg-3'}`}>{t(`home.mode.${mode.key}.text`)}</span>
                 </span>
-                <span className={`hidden text-[0.9375rem] md:block ${mode.key === 'quick' ? 'text-fg-2' : 'text-fg-4'}`}>{t(`home.mode.${mode.key}.text`)}</span>
+                <span className={`hidden text-[0.9375rem] md:block ${mode.key === 'quick' ? 'text-fg-2' : 'text-fg-3'}`}>{t(`home.mode.${mode.key}.text`)}</span>
               </>
             );
             const grid = 'grid grid-cols-[2rem_minmax(0,1fr)_auto] items-center gap-x-4 py-6 md:grid-cols-[3rem_minmax(0,1.3fr)_minmax(0,1fr)_9rem] md:gap-x-8 md:py-7';
             return (
-              <li key={mode.key} className="reveal" style={stagger(i)}>
+              <li key={mode.key}>
                 {mode.key === 'quick' ? (
                   <Link to="/race" className={`row row-link group ${grid}`}>
                     {body}
@@ -154,7 +154,7 @@ export function Home() {
                 ) : (
                   <div className={`row ${grid}`} aria-disabled="true">
                     {body}
-                    <span className="label justify-self-end text-right text-[0.625rem] text-fg-4">{t('home.comingPhase', { phase: mode.phase })}</span>
+                    <span className="label justify-self-end text-right text-[0.625rem] text-fg-3">{t('home.comingPhase', { phase: mode.phase })}</span>
                   </div>
                 )}
               </li>
@@ -165,15 +165,16 @@ export function Home() {
 
       <section className="mt-20 md:mt-32">
         <h2 className="label mb-4">{t('home.explore')}</h2>
-        <ul className="grid grid-cols-2 gap-px border border-line bg-line lg:grid-cols-4">
-          {explore.map((item, i) => (
-            <li key={item.to} className="reveal bg-ink-950" style={stagger(i)}>
-              <Link to={item.to} className="group flex h-full min-h-44 flex-col justify-between gap-8 p-4 transition-colors hover:bg-ink-900 md:min-h-56 md:p-6">
-                <span className="num text-[clamp(2.5rem,6vw,5rem)] font-semibold leading-none text-fg-4 transition-colors group-hover:text-fg">{String(item.count).padStart(2, '0')}</span>
-                <span>
-                  <span className="cond block text-2xl md:text-3xl">{t(item.nav)}</span>
-                  <span className="mt-1 block text-sm text-fg-3">{t(item.text, { count: calendar.rounds.length })}</span>
+        {/* Cuatro enlaces en una sola línea: son navegación, no tarjetas. */}
+        <ul className="grid grid-cols-2 gap-x-8 border-t border-line-strong lg:grid-cols-4">
+          {explore.map((item) => (
+            <li key={item.to}>
+              <Link to={item.to} className="group block border-b border-line py-5">
+                <span className="flex items-baseline justify-between gap-3">
+                  <span className="cond text-2xl underline-offset-4 group-hover:underline md:text-3xl">{t(item.nav)}</span>
+                  <span className="num text-sm text-fg-3">{item.count}</span>
                 </span>
+                <span className="mt-1 block text-sm text-fg-3">{t(item.text, { count: calendar.rounds.length })}</span>
               </Link>
             </li>
           ))}

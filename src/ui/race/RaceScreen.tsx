@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { driverName, findDriver, findRound, findTeam } from '../../data/index.ts';
@@ -80,12 +80,12 @@ export function RaceScreen() {
 
         {/* Podio: los tres primeros, cada uno con el color de su equipo. */}
         <div className="mt-px grid grid-cols-3 gap-px bg-line">
-          {podium.map((row, i) => {
+          {podium.map((row) => {
             const setup = setups.get(row.id);
             const driver = findDriver(row.id);
             return (
-              <div key={row.id} className="reveal relative min-w-0 bg-ink-900 p-4 md:p-6" style={{ '--i': i + 1, boxShadow: `inset 0 3px 0 ${setup?.color ?? 'transparent'}` } as CSSProperties}>
-                <p className="num text-[clamp(2rem,6vw,4.5rem)] font-bold leading-none text-fg-4">{row.position}</p>
+              <div key={row.id} className="relative min-w-0 bg-ink-900 p-4 md:p-6" style={{ boxShadow: `inset 0 3px 0 ${setup?.color ?? 'transparent'}` }}>
+                <p className="num text-[clamp(2rem,6vw,4.5rem)] font-bold leading-none text-fg-3">{row.position}</p>
                 <p className="cond mt-4 truncate text-[clamp(1.5rem,3.2vw,2.75rem)] leading-none">{setup?.code}</p>
                 <p className="mt-1 hidden truncate text-sm text-fg-3 sm:block">{driver ? driverName(driver) : row.id}</p>
               </div>

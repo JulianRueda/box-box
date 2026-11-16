@@ -22,7 +22,7 @@ export function Standings() {
       <PageHeader title={t('standings.title')} lead={t('standings.lead')} />
 
       {/* Control de ronda: se queda pegado bajo la cabecera mientras se leen las tablas. */}
-      <div className="sticky top-[calc(3.5rem+3px)] z-30 -mx-4 border-b border-line-strong bg-ink-950/95 px-4 pb-2 pt-4 backdrop-blur-md md:-mx-8 md:px-8">
+      <div className="sticky top-15 z-30 -mx-4 border-b border-line-strong bg-ink-950/95 px-4 pb-2 pt-4 backdrop-blur-md md:-mx-8 md:px-8">
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
           <p className="min-w-0" aria-live="polite">
             <span className="cond text-2xl md:text-3xl">{label}</span>
@@ -33,7 +33,7 @@ export function Standings() {
             )}
           </p>
           <p className="num text-sm text-fg-3">
-            {String(round).padStart(2, '0')} / {results.lastRound}
+            {round} / {results.lastRound}
           </p>
         </div>
         <input
@@ -50,7 +50,7 @@ export function Standings() {
         {/* Una marca por ronda disputada, alineada con el recorrido del control. */}
         <div className="-mt-1 flex justify-between px-[0.375rem]" aria-hidden="true">
           {Array.from({ length: results.lastRound + 1 }, (_, i) => (
-            <span key={i} className={`h-1.5 w-px ${i <= round ? 'bg-fg-3' : 'bg-ink-700'}`} />
+            <span key={i} className={`h-1 w-px ${i <= round ? 'bg-fg-3' : 'bg-ink-700'}`} />
           ))}
         </div>
       </div>

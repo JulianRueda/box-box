@@ -8,7 +8,7 @@ import { constructorStandings } from '../../engine/season/standings.ts';
 import { EstTag, PageHeader, RatingBar, Section, Stat } from '../components/bits.tsx';
 import { DriverCard } from '../components/DriverPortrait.tsx';
 import { TeamLogo } from '../components/TeamLogo.tsx';
-import { stagger, teamVars, useFormat } from '../format.ts';
+import { teamVars, useFormat } from '../format.ts';
 import { NotFound } from './NotFound.tsx';
 
 const CAR_KEYS: (keyof CarRatings)[] = [
@@ -26,22 +26,22 @@ export function Teams() {
     <>
       <PageHeader kicker={t('teams.sortNote', { round: results.lastRound })} title={t('teams.title')} lead={t('teams.lead')} />
       <ul>
-        {table.map((row, i) => {
+        {table.map((row) => {
           const team = findTeam(row.id);
           if (!team) return null;
           return (
-            <li key={team.id} className="reveal" style={{ ...teamVars(team), ...stagger(Math.min(i, 10)) }}>
+            <li key={team.id} style={teamVars(team)}>
               <Link to={`/teams/${team.id}`} className="row row-link group relative grid grid-cols-[2rem_minmax(0,1fr)_auto] items-center gap-x-4 py-5 md:grid-cols-[3rem_3.5rem_minmax(0,1.5fr)_minmax(0,1fr)_7rem] md:gap-x-8 md:py-6">
-                <span className="num text-sm font-semibold text-fg-3">{String(row.position).padStart(2, '0')}</span>
+                <span className="num text-right text-sm font-semibold text-fg-3">{row.position}</span>
                 <span className="hidden md:block"><TeamLogo team={team} size={44} /></span>
                 <span className="min-w-0">
                   <span className="display block truncate text-[clamp(1.5rem,3.6vw,3.25rem)] transition-colors group-hover:text-(--team-ink)">{team.name}</span>
-                  <span className="mt-1.5 block truncate text-sm text-fg-3">{team.powerUnit} · {team.chassis}</span>
+                  <span className="mt-2 block truncate text-sm text-fg-3">{team.powerUnit} · {team.chassis}</span>
                 </span>
                 <span className="col-span-2 col-start-2 mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem] text-fg-2 md:col-span-1 md:col-start-auto md:mt-0 md:block">
                   {raceDrivers(team.id).map((d) => (
                     <span key={d.id} className="flex items-baseline gap-2">
-                      <span className="num w-6 text-right text-xs text-fg-4">{d.number}</span>
+                      <span className="num w-6 text-right text-xs text-fg-3">{d.number}</span>
                       {driverName(d)}
                     </span>
                   ))}
@@ -74,8 +74,6 @@ export function TeamDetail() {
 
   return (
     <div style={teamVars(team)}>
-      {/* La ficha se tiñe del color del equipo: un velo arriba y la franja bajo la cabecera. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--team)_16%,transparent),transparent)]" aria-hidden="true" />
       <PageHeader
         kicker={team.fullName}
         title={team.name}
@@ -178,12 +176,12 @@ function SeasonGrid({ team }: { team: Team }) {
           const cars = rr.race.filter((e) => e.teamId === team.id);
           return (
             <li key={rr.round} className="w-14 bg-ink-950">
-              <Link to={`/calendar/${rr.round}`} title={round ? f.gp(round) : undefined} className="block py-2.5 text-center transition-colors hover:bg-ink-850">
+              <Link to={`/calendar/${rr.round}`} title={round ? f.gp(round) : undefined} className="block py-3 text-center transition-colors hover:bg-ink-850">
                 <span className="label block text-[0.625rem]">{t('calendar.roundShort', { round: rr.round })}</span>
                 {cars.map((e) => {
                   const done = /^\d+$/.test(e.positionText);
                   return (
-                    <span key={e.driverId} className={`num block text-lg leading-7 ${!done ? 'text-fg-4' : e.position <= 3 ? 'font-semibold text-(--team-ink)' : e.points ? 'text-fg' : 'text-fg-3'}`}>
+                    <span key={e.driverId} className={`num block text-lg leading-7 ${!done ? 'text-fg-3' : e.position <= 3 ? 'font-semibold text-(--team-ink)' : e.points ? 'text-fg' : 'text-fg-3'}`}>
                       {done ? e.position : '—'}
                     </span>
                   );

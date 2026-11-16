@@ -75,7 +75,7 @@ export function TimingTower({ snapshot, setups }: { snapshot: RaceSnapshot; setu
                 type="button"
                 onClick={() => select(car.id)}
                 aria-pressed={selected}
-                className={`grid h-8 w-full cursor-pointer grid-cols-[1.5rem_0.25rem_2.5rem_minmax(0,1fr)_auto_1rem] items-center gap-2 border-b border-line px-1 text-left transition-colors hover:bg-ink-850 ${selected ? 'bg-ink-800 shadow-[inset_2px_0_0_var(--color-fg)]' : car.player ? 'bg-ink-900' : ''} ${out ? 'text-fg-4' : ''}`}
+                className={`grid h-8 w-full cursor-pointer grid-cols-[1.5rem_0.25rem_2.5rem_minmax(0,1fr)_auto_1rem] items-center gap-2 border-b border-line px-1 text-left transition-colors hover:bg-ink-850 ${selected ? 'bg-ink-800 shadow-[inset_2px_0_0_var(--color-fg)]' : car.player ? 'bg-ink-900' : ''} ${out ? 'text-fg-3' : ''}`}
               >
                 <span className="num text-right text-[0.8125rem] font-semibold">{out ? '' : car.position}</span>
                 <span className={`h-4 w-1 ${out ? 'opacity-40' : ''}`} style={{ background: setup.color }} aria-hidden="true" />
@@ -89,7 +89,7 @@ export function TimingTower({ snapshot, setups }: { snapshot: RaceSnapshot; setu
                   {!out && <TyreChip compound={car.compound} size={18} />}
                   {!out && <span className="num w-5 text-right text-xs text-fg-3">{car.tyreAge}</span>}
                 </span>
-                <span className="num text-right text-xs text-fg-4" title={t('race.stopsHeader')}>{out ? '' : car.pitStops}</span>
+                <span className="num text-right text-xs text-fg-3" title={t('race.stopsHeader')}>{out ? '' : car.pitStops}</span>
               </button>
             </li>
           );
@@ -113,8 +113,8 @@ export function StrategyTable({ snapshot, setups }: { snapshot: RaceSnapshot; se
           const cliffLap = Math.min(total, Math.max(1, car.lap + 1) + Math.floor(car.lapsToCliff));
           return (
             <li key={car.id} className={`grid h-8 grid-cols-[2.5rem_minmax(0,1fr)] items-center gap-2 border-b border-line px-1 ${car.player ? 'bg-ink-900' : ''}`}>
-              <span className={`cond text-base leading-none ${car.status === 'out' ? 'text-fg-4' : car.player ? 'text-fg' : 'text-fg-2'}`}>{setup.code}</span>
-              <div className="relative h-3.5 bg-ink-850" title={car.status === 'out' ? undefined : t('race.nextStop', { lap: cliffLap })}>
+              <span className={`cond text-base leading-none ${car.status === 'out' ? 'text-fg-3' : car.player ? 'text-fg' : 'text-fg-2'}`}>{setup.code}</span>
+              <div className="relative h-4 bg-ink-850" title={car.status === 'out' ? undefined : t('race.nextStop', { lap: cliffLap })}>
                 {car.stints.map((stint, i) => {
                   const end = stint.endLap ?? Math.max(stint.startLap, car.lap);
                   return (
@@ -145,7 +145,7 @@ export function StrategyTable({ snapshot, setups }: { snapshot: RaceSnapshot; se
 function Mode<T extends string>({ label, options, value, onChange, text }: { label: string; options: readonly T[]; value: T; onChange: (v: T) => void; text: (v: T) => string }) {
   return (
     <div>
-      <p className="label mb-1.5">{label}</p>
+      <p className="label mb-2">{label}</p>
       <Segmented label={label} options={options} value={value} onChange={onChange} text={text} />
     </div>
   );
@@ -158,7 +158,7 @@ function Meter({ label, value, text, tone }: { label: string; value: number; tex
         <span className="label">{label}</span>
         <span className="num text-[0.8125rem] text-fg-2">{text}</span>
       </div>
-      <div className="mt-1.5 h-1 bg-ink-800">
+      <div className="mt-2 h-1 bg-ink-800">
         <div className="h-full origin-left transition-transform duration-200" style={{ transform: `scaleX(${Math.min(1, Math.max(0, value))})`, background: tone ?? 'var(--color-fg-2)' }} />
       </div>
     </div>
@@ -182,7 +182,7 @@ export function DriverPanel({ car, setup, snapshot }: { car: CarSnap; setup: Car
 
   const sectorTone = (i: number): string => {
     const last = car.lastSectors[i];
-    if (last === null || last === undefined) return 'border-line text-fg-4';
+    if (last === null || last === undefined) return 'border-line text-fg-3';
     if (last === snapshot.bestSectors[i]) return 'border-timing-best text-timing-best';
     if (last === car.bestSectors[i]) return 'border-timing-personal text-timing-personal';
     return 'border-timing-slower text-timing-slower';
@@ -193,7 +193,7 @@ export function DriverPanel({ car, setup, snapshot }: { car: CarSnap; setup: Car
 
   return (
     <section className="border border-line bg-ink-900" aria-label={setup.code}>
-      <header className="flex items-center gap-3 border-b border-line px-3 py-2.5" style={{ boxShadow: `inset 0 3px 0 ${setup.color}` }}>
+      <header className="flex items-center gap-3 border-b border-line px-3 py-3" style={{ boxShadow: `inset 0 3px 0 ${setup.color}` }}>
         <span className="num text-lg font-semibold">P{car.position}</span>
         <span className="cond text-2xl leading-none">{setup.code}</span>
         <TyreChip compound={car.compound} />
@@ -204,7 +204,7 @@ export function DriverPanel({ car, setup, snapshot }: { car: CarSnap; setup: Car
         </span>
       </header>
 
-      <div className="grid gap-3.5 p-3">
+      <div className="grid gap-4 p-3">
         <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-3">
           {/* Cuatro ruedas, colocadas como en el coche */}
           <div className="grid grid-cols-2 gap-1" role="group" aria-label={t('race.tyres')}>
@@ -223,7 +223,7 @@ export function DriverPanel({ car, setup, snapshot }: { car: CarSnap; setup: Car
           <div className="grid content-between gap-2">
             <p className="text-[0.8125rem] text-fg-2">
               {car.lapsToCliff < 1 ? <span className="font-semibold text-alert">{t('race.cliff')}</span> : t('race.toCliff', { count: Math.floor(car.lapsToCliff) })}
-              <span className="text-fg-4"> · </span>
+              <span className="text-fg-3"> · </span>
               {car.heat < 0.85 ? t('race.tempCold') : t('race.tempOk')}
             </p>
             <Meter label={t('race.fuel')} value={car.fuelLaps / Math.max(1, snapshot.totalLaps)} text={t('race.fuelValue', { kg: car.fuelKg.toFixed(0), laps: car.fuelLaps.toFixed(1) })} />
@@ -232,7 +232,7 @@ export function DriverPanel({ car, setup, snapshot }: { car: CarSnap; setup: Car
         </div>
 
         <div>
-          <div className="mb-1.5 flex items-baseline justify-between gap-2">
+          <div className="mb-2 flex items-baseline justify-between gap-2">
             <span className="label">{t('race.sectors')}</span>
             <span className="num text-xs text-fg-3">{t('race.bestLap')} {formatLap(car.bestLapS)}</span>
           </div>
@@ -258,7 +258,7 @@ export function DriverPanel({ car, setup, snapshot }: { car: CarSnap; setup: Car
             <Mode label={t('race.energy')} options={ENERGY_MODES} value={car.energyMode} onChange={(value) => sendCommand({ type: 'energy', id, value })} text={(v) => t(`race.energyMode.${v}`)} />
 
             <div>
-              <div className="mb-1.5 flex items-baseline justify-between gap-2">
+              <div className="mb-2 flex items-baseline justify-between gap-2">
                 <p className={`label ${car.pitRequest ? 'text-timing-slower' : ''}`}>{car.pitRequest ? t('race.boxRequested') : t('race.boxNow')}</p>
                 {car.pitProjection && (
                   <p className="text-[0.8125rem] text-fg-2">
@@ -281,7 +281,7 @@ export function DriverPanel({ car, setup, snapshot }: { car: CarSnap; setup: Car
                   </button>
                 ))}
               </div>
-              <div className="mt-2.5 flex flex-wrap gap-x-5 gap-y-2 text-[0.8125rem] text-fg-2">
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-[0.8125rem] text-fg-2">
                 <label className={check}>
                   <input type="checkbox" checked={wing} onChange={(e) => setWing(e.target.checked)} className={box} />
                   {t('race.frontWing')}
@@ -358,13 +358,13 @@ export function Feed({ feed }: { feed: RaceEvent[] }) {
     <section aria-label={t('race.feed')}>
       <h2 className="label border-b border-line-strong pb-2">{t('race.feed')}</h2>
       {lines.length === 0 ? (
-        <p className="py-3 text-sm text-fg-4">{t('race.feedEmpty')}</p>
+        <p className="py-3 text-sm text-fg-3">{t('race.feedEmpty')}</p>
       ) : (
         <ol className="max-h-64 overflow-y-auto" aria-live="polite">
           {lines.slice(0, 40).map(({ e, line }, i) => (
             <li key={`${e.t}-${i}`} className={`grid grid-cols-[0.125rem_2.75rem_minmax(0,1fr)] gap-2 border-b border-line py-2 text-[0.8125rem] ${e.type === 'advice' ? 'text-fg' : e.type === 'flag' || e.type === 'incident' ? 'text-fg-2' : 'text-fg-3'}`}>
               <span className={EVENT_MARK[e.type] ?? 'bg-ink-800'} aria-hidden="true" />
-              <span className="num text-fg-4">{clock(e.t)}</span>
+              <span className="num text-fg-3">{clock(e.t)}</span>
               <span className={e.type === 'advice' ? 'font-semibold' : ''}>{line}</span>
             </li>
           ))}

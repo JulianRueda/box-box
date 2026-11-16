@@ -27,7 +27,7 @@ function plansFor(ctx: StrategyContext): StrategyPlan[] {
 function Step({ n, title, note, children }: { n: number; title: string; note?: ReactNode; children: ReactNode }) {
   return (
     <section className="grid gap-x-8 gap-y-4 border-t border-line-strong py-8 first:border-t-0 md:grid-cols-[3rem_minmax(0,1fr)]">
-      <span className="num text-sm font-semibold text-fg-4" aria-hidden="true">{String(n).padStart(2, '0')}</span>
+      <span className="num text-sm font-semibold text-fg-3" aria-hidden="true">{n}</span>
       <div className="min-w-0">
         <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
           <h2 className="display text-lg md:text-xl">{title}</h2>
@@ -108,7 +108,7 @@ export function QuickRaceSetup() {
             <select id="quick-round" value={round} onChange={(e) => { setRound(Number(e.target.value)); setSwaps({}); setPlanIndex({}); }} className="field text-lg">
               {calendar.rounds.map((r) => (
                 <option key={r.round} value={r.round}>
-                  {String(r.round).padStart(2, '0')} · {f.gp(r)}
+                  {r.round} · {f.gp(r)}
                 </option>
               ))}
             </select>
@@ -137,7 +137,7 @@ export function QuickRaceSetup() {
             <div className="grid gap-3 sm:grid-cols-2">
               {seats.map((seat, i) => (
                 <div key={seat}>
-                  <label className="label mb-1.5 block" htmlFor={`seat-${i}`}>{t('race.seat', { n: i + 1 })}</label>
+                  <label className="label mb-2 block" htmlFor={`seat-${i}`}>{t('race.seat', { n: i + 1 })}</label>
                   <select id={`seat-${i}`} value={swaps[seat] ?? seat} onChange={(e) => setSwaps((s) => ({ ...s, [seat]: e.target.value }))} className="field">
                     {drivers
                       .filter((d) => d.id === seat || !grid.some((e) => e.driverId === d.id) || (swaps[seat] ?? seat) === d.id)
@@ -169,7 +169,7 @@ export function QuickRaceSetup() {
                             <span className={`num text-sm ${i === 0 ? 'text-timing-personal' : 'text-fg-3'}`}>{i === 0 ? t('race.fastest') : t('race.slower', { value: (plan.estTimeS - best).toFixed(1) })}</span>
                           </span>
                           {/* Los stints como en la tabla de estrategia de la carrera: bloques de color con su letra. */}
-                          <span className="mt-2.5 flex h-5 w-full gap-0.5">
+                          <span className="mt-3 flex h-5 w-full gap-0.5">
                             {plan.stints.map((stint, k) => (
                               <span key={k} className="num flex items-center justify-center gap-1 text-[0.6875rem] font-semibold text-ink-950" style={{ width: `${(stint.laps / circuit.laps) * 100}%`, background: TYRE_COLOR[stint.compound] }}>
                                 {t(`race.tyreLetter.${stint.compound}`)} {stint.laps}
@@ -202,7 +202,7 @@ export function QuickRaceSetup() {
           <div className="panel bracket">
             <p className="label flex items-center justify-between border-b border-line px-4 py-3">
               <span className="truncate">{f.gp(info)}</span>
-              <span className="num">R{String(round).padStart(2, '0')}</span>
+              <span className="num">R{round}</span>
             </p>
             <div className="p-4">
               <TrackMap circuit={circuit} detailed className="h-auto w-full" />

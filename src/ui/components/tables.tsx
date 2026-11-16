@@ -54,7 +54,7 @@ export function RaceTable({ entries, caption }: { entries: RaceEntry[]; caption:
                   )}
                   {done && e.time ? e.time : status(e)}
                 </td>
-                <td className={`num text-right font-semibold ${e.points ? 'text-fg' : 'text-fg-4'}`}>{e.points}</td>
+                <td className={`num text-right font-semibold ${e.points ? 'text-fg' : 'text-fg-3'}`}>{e.points}</td>
               </tr>
             );
           })}
@@ -152,7 +152,7 @@ export function ConstructorStandingsTable({ rows, caption }: { rows: StandingRow
             <tr key={r.id} className="row">
               <td><Pos value={r.position} /></td>
               <td>
-                <Link to={`/teams/${r.id}`} className="group flex items-center gap-3 py-2.5">
+                <Link to={`/teams/${r.id}`} className="group flex items-center gap-3 py-3">
                   {team && <TeamLogo team={team} size={24} />}
                   <span className="cond truncate text-lg underline-offset-4 group-hover:underline">{team?.name ?? r.id}</span>
                 </Link>

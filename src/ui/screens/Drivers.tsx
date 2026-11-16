@@ -10,7 +10,7 @@ import { DriverCard, DriverPortrait } from '../components/DriverPortrait.tsx';
 import { Helmet } from '../components/Helmet.tsx';
 import { TeamLogo } from '../components/TeamLogo.tsx';
 import { Radar } from '../components/Radar.tsx';
-import { stagger, teamVars, useFormat } from '../format.ts';
+import { teamVars, useFormat } from '../format.ts';
 import { useUi, type RoleFilter } from '../store.ts';
 import { NotFound } from './NotFound.tsx';
 
@@ -39,11 +39,11 @@ export function Drivers() {
         aside={<Segmented label={t('drivers.filter')} options={FILTERS} value={filter} onChange={setFilter} text={(key) => t(`drivers.${key}`)} className="w-full sm:w-auto [&>button]:min-h-11 [&>button]:px-4" />}
       />
       <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        {list.map((d, i) => {
+        {list.map((d) => {
           const team = d.teamId ? findTeam(d.teamId) : undefined;
           const row = rank.get(d.id);
           return (
-            <li key={d.id} className="reveal" style={stagger(Math.min(i, 14))}>
+            <li key={d.id}>
               <DriverCard driver={d} team={team} meta={row ? { value: row.points, label: t('table.points') } : undefined} />
             </li>
           );
@@ -69,7 +69,6 @@ export function DriverDetail() {
 
   return (
     <div style={teamVars(team)}>
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--team)_16%,transparent),transparent)]" aria-hidden="true" />
       <header className="reveal relative grid items-end gap-x-10 gap-y-6 overflow-hidden border-b border-line-strong pt-10 md:grid-cols-[minmax(0,1fr)_auto] md:pt-20">
         {/* El número del piloto, enorme, como dorsal de fondo. */}
         <span className="num pointer-events-none absolute -bottom-[0.14em] right-[clamp(8rem,24vw,22rem)] hidden text-[clamp(10rem,24vw,21rem)] font-bold leading-none text-(--team) opacity-[0.16] md:block" aria-hidden="true">
@@ -169,11 +168,11 @@ function SeasonStrip({ driver }: { driver: Driver }) {
             <li key={round} className="w-14 bg-ink-950" style={teamVars(findTeam(entry.teamId))}>
               <Link to={`/calendar/${round}`} title={info ? f.gp(info) : undefined} className="block pb-2 text-center transition-colors hover:bg-ink-850">
                 <span className="block h-0.5 bg-(--team)" aria-hidden="true" />
-                <span className="label mt-2.5 block text-[0.625rem]">{t('calendar.roundShort', { round })}</span>
-                <span className={`num block text-xl leading-8 ${!done ? 'text-fg-4' : entry.position <= 3 ? 'font-semibold text-(--team-ink)' : entry.points ? 'text-fg' : 'text-fg-3'}`}>
+                <span className="label mt-3 block text-[0.625rem]">{t('calendar.roundShort', { round })}</span>
+                <span className={`num block text-xl leading-8 ${!done ? 'text-fg-3' : entry.position <= 3 ? 'font-semibold text-(--team-ink)' : entry.points ? 'text-fg' : 'text-fg-3'}`}>
                   {done ? entry.position : '—'}
                 </span>
-                <span className="num block text-xs text-fg-4">{entry.points ? `+${entry.points}` : ' '}</span>
+                <span className="num block text-xs text-fg-3">{entry.points ? `+${entry.points}` : ' '}</span>
               </Link>
             </li>
           );

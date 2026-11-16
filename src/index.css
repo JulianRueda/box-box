@@ -24,8 +24,7 @@
 
   --color-fg: oklch(0.96 0.004 255);
   --color-fg-2: oklch(0.82 0.008 255);
-  --color-fg-3: oklch(0.69 0.011 255);
-  --color-fg-4: oklch(0.57 0.012 255);
+  --color-fg-3: oklch(0.66 0.011 255);
 
   --color-line: oklch(1 0 0 / 0.075);
   --color-line-strong: oklch(1 0 0 / 0.16);

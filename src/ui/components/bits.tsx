@@ -11,9 +11,9 @@ import { teamVars } from '../format.ts';
 export function SectorMark({ className = '' }: { className?: string }) {
   return (
     <span className={`inline-flex gap-0.5 ${className}`} aria-hidden="true">
-      <span className="h-3.5 w-1.5 bg-timing-best" />
-      <span className="h-3.5 w-1.5 bg-timing-personal" />
-      <span className="h-3.5 w-1.5 bg-timing-slower" />
+      <span className="h-4 w-1.5 bg-timing-best" />
+      <span className="h-4 w-1.5 bg-timing-personal" />
+      <span className="h-4 w-1.5 bg-timing-slower" />
     </span>
   );
 }
@@ -82,13 +82,13 @@ export function Segmented<T extends string>({ label, options, value, onChange, t
 /** Barra de valoración 0–100 con su número; el valor siempre va también en texto. */
 export function RatingBar({ label, value, estimated = false }: { label: string; value: number; estimated?: boolean }) {
   return (
-    <div className="grid grid-cols-[minmax(0,1fr)_2.5rem] items-center gap-x-4 gap-y-2 border-b border-line py-2.5">
+    <div className="grid grid-cols-[minmax(0,1fr)_2.5rem] items-center gap-x-4 gap-y-2 border-b border-line py-3">
       <span className="text-[0.9375rem] text-fg-2">
         {label}
         {estimated && <EstTag />}
       </span>
       <span className="num text-right text-[0.9375rem] font-semibold">{value}</span>
-      <div className="col-span-2 h-[3px] bg-ink-800" role="presentation">
+      <div className="col-span-2 h-0.5 bg-ink-800" role="presentation">
         <div className="h-full bg-(--team-ink)" style={{ width: `${value}%` }} />
       </div>
     </div>
@@ -99,7 +99,7 @@ export function Stat({ label, value, sub }: { label: ReactNode; value: ReactNode
   return (
     <div className="min-w-0 border-t border-line pt-3">
       <dt className="label">{label}</dt>
-      <dd className="mt-1.5 text-lg leading-snug text-fg">{value}</dd>
+      <dd className="mt-2 text-lg leading-snug text-fg">{value}</dd>
       {sub && <dd className="text-sm text-fg-3">{sub}</dd>}
     </div>
   );
@@ -110,7 +110,7 @@ export function DriverCell({ driverId, teamId }: { driverId: string; teamId: str
   const driver = findDriver(driverId);
   const team = findTeam(teamId);
   return (
-    <Link to={`/drivers/${driverId}`} className="group flex min-w-0 items-center gap-3 py-2.5" style={teamVars(team)}>
+    <Link to={`/drivers/${driverId}`} className="group flex min-w-0 items-center gap-3 py-3" style={teamVars(team)}>
       <span className="h-5 w-1 shrink-0 bg-(--team)" aria-hidden="true" />
       <span className="cond w-10 shrink-0 text-lg">{driver?.code ?? driverId.slice(0, 3)}</span>
       <span className="hidden truncate text-fg-2 underline-offset-4 group-hover:text-fg group-hover:underline sm:block">{driver ? driverName(driver) : driverId}</span>

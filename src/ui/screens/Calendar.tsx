@@ -7,7 +7,7 @@ import { constructorStandings, driverStandings } from '../../engine/season/stand
 import { EstTag, PageHeader, Section, Stat } from '../components/bits.tsx';
 import { ConstructorStandingsTable, DriverStandingsTable, QualifyingTable, RaceTable } from '../components/tables.tsx';
 import { TrackLegend, TrackMap } from '../components/TrackMap.tsx';
-import { stagger, teamVars, useFormat } from '../format.ts';
+import { teamVars, useFormat } from '../format.ts';
 import { NotFound } from './NotFound.tsx';
 
 const SESSION_ORDER = ['fp1', 'fp2', 'fp3', 'sprintQualifying', 'sprint', 'qualifying', 'race'] as const;
@@ -22,15 +22,15 @@ export function Calendar() {
     <>
       <PageHeader title={t('calendar.title')} lead={t('calendar.lead', { total, done, left: total - done })} />
       <ol>
-        {calendar.rounds.map((round, i) => {
+        {calendar.rounds.map((round) => {
           const result = findResult(round.round);
           const winner = result?.race[0];
           const winnerDriver = winner && findDriver(winner.driverId);
           const circuit = findCircuit(round.circuitId);
           return (
-            <li key={round.round} className="reveal" style={{ ...teamVars(winner && findTeam(winner.teamId)), ...stagger(Math.min(i, 12)) }}>
+            <li key={round.round} style={teamVars(winner && findTeam(winner.teamId))}>
               <Link to={`/calendar/${round.round}`} className="row row-link group grid grid-cols-[2.25rem_minmax(0,1fr)_auto] items-center gap-x-4 py-4 md:grid-cols-[3rem_5.5rem_minmax(0,1.5fr)_minmax(0,1fr)_4rem] md:gap-x-8 md:py-5">
-                <span className={`num text-sm font-semibold ${result ? 'text-fg-3' : 'text-fg-4'}`}>{String(round.round).padStart(2, '0')}</span>
+                <span className="num text-right text-sm font-semibold text-fg-3">{round.round}</span>
                 <span className="num hidden text-sm text-fg-3 md:block">{f.dayMonth(round.date)}</span>
                 <span className="min-w-0">
                   <span className={`cond block truncate text-2xl leading-tight md:text-[2rem] ${result ? '' : 'text-fg-2'}`}>
@@ -42,17 +42,17 @@ export function Calendar() {
                     {round.circuitName} · {round.locality}
                   </span>
                 </span>
-                <span className="col-start-2 mt-1.5 min-w-0 md:col-start-auto md:mt-0">
+                <span className="col-start-2 mt-2 min-w-0 md:col-start-auto md:mt-0">
                   {winnerDriver ? (
-                    <span className="flex items-center gap-2.5">
+                    <span className="flex items-center gap-2">
                       <span className="h-5 w-1 shrink-0 bg-(--team)" aria-hidden="true" />
                       <span className="truncate text-fg-2">{driverName(winnerDriver)}</span>
                     </span>
                   ) : (
-                    <span className="label text-fg-4">{t('calendar.upcoming')}</span>
+                    <span className="label text-fg-3">{t('calendar.upcoming')}</span>
                   )}
                 </span>
-                {circuit && <TrackMap circuit={circuit} decorative weight={30} className="col-start-3 row-span-2 row-start-1 h-12 w-12 text-fg-4 transition-colors group-hover:text-fg md:col-start-auto md:row-span-1 md:row-start-auto md:h-14 md:w-14" />}
+                {circuit && <TrackMap circuit={circuit} decorative weight={30} className="col-start-3 row-span-2 row-start-1 h-12 w-12 text-fg-3 transition-colors group-hover:text-fg md:col-start-auto md:row-span-1 md:row-start-auto md:h-14 md:w-14" />}
               </Link>
             </li>
           );
@@ -196,7 +196,7 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
                   />
                 )}
               </dl>
-              <p className="mt-6 text-sm text-fg-4">{t('round.estimatedNote')}</p>
+              <p className="mt-6 text-sm text-fg-3">{t('round.estimatedNote')}</p>
             </Section>
           </aside>
         )}

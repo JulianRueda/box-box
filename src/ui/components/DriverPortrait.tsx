@@ -56,7 +56,7 @@ export function DriverCard({ driver, team, meta }: { driver: Driver; team: Team 
         <div className="min-w-0">
           <p className="num flex items-center gap-2 text-sm text-(--team-ink)">
             <span className="font-semibold">{driver.number ?? driver.code}</span>
-            <span className="text-fg-4">{driver.countryCode}</span>
+            <span className="text-fg-3">{driver.countryCode}</span>
           </p>
           <p className="mt-3 leading-tight text-fg-2">{driver.givenName}</p>
           <p className="cond truncate text-[1.75rem] leading-none">{driver.familyName}</p>

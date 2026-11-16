@@ -76,7 +76,7 @@ function TeamRow({ team }: { team: Team }) {
       </Slot>
       <p className="text-center">
         <span className="cond block text-lg leading-tight">{team.name}</span>
-        <span className="num text-xs text-fg-4">{team.id}.svg / .png</span>
+        <span className="num text-xs text-fg-3">{team.id}.svg / .png</span>
         <span className="sr-only">{t('settings.fileName')}</span>
       </p>
     </li>
@@ -91,7 +91,7 @@ function DriverRow({ driver }: { driver: Driver }) {
       <div className="min-w-40 flex-1 border-l-2 border-(--team) pl-3">
         <p className="cond truncate text-xl leading-tight">{driverName(driver)}</p>
         <p className="text-sm text-fg-3">{team?.name ?? t('driver.freeAgent')}</p>
-        <p className="num mt-1 text-xs text-fg-4">{driver.id}.png · {driver.id}-helmet.png</p>
+        <p className="num mt-1 text-xs text-fg-3">{driver.id}.png · {driver.id}-helmet.png</p>
       </div>
       <Slot kind="driver" id={driver.id} label={`${t('settings.photo')} — ${driverName(driver)}`}>
         <DriverPortrait driver={driver} team={team} className="h-20 w-20" />
@@ -154,7 +154,7 @@ export function Settings() {
             {report.skipped.length > 0 && ` ${t('settings.skipped', { files: report.skipped.join(', ') })}`}
           </p>
         )}
-        <p className="mt-3 max-w-[80ch] text-sm text-fg-4">{t('settings.privacy')}</p>
+        <p className="mt-3 max-w-[80ch] text-sm text-fg-3">{t('settings.privacy')}</p>
       </Section>
 
       <Section title={t('settings.logos')}>
