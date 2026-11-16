@@ -1,0 +1,13 @@
+node_modules/
+dist/
+scripts/.cache/
+test-results/
+playwright-report/
+*.log
+.DS_Store
+
+# Logos y fotos los pone cada jugador: son marcas de terceros y no van al repo.
+public/assets/logos/*
+!public/assets/logos/README.md
+public/assets/drivers/*
+!public/assets/drivers/README.md
