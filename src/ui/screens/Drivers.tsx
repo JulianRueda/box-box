@@ -5,7 +5,7 @@ import {
 } from '../../data/index.ts';
 import type { Driver, DriverAttributes } from '../../data/schemas.ts';
 import { driverStandings } from '../../engine/season/standings.ts';
-import { EstTag, PageHeader, RatingBar, Section, Stat } from '../components/bits.tsx';
+import { EstTag, PageHeader, RatingBar, Section, Segmented, Stat } from '../components/bits.tsx';
 import { DriverCard, DriverPortrait } from '../components/DriverPortrait.tsx';
 import { Helmet } from '../components/Helmet.tsx';
 import { TeamLogo } from '../components/TeamLogo.tsx';
@@ -36,23 +36,9 @@ export function Drivers() {
       <PageHeader
         title={t('drivers.title')}
         lead={t('drivers.lead')}
-        aside={
-          <div role="group" aria-label={t('drivers.filter')} className="flex border border-line-strong">
-            {FILTERS.map((key) => (
-              <button
-                key={key}
-                type="button"
-                aria-pressed={filter === key}
-                onClick={() => setFilter(key)}
-                className={`label min-h-11 cursor-pointer px-4 transition-colors ${filter === key ? 'bg-fg text-ink-950' : 'text-fg-3 hover:text-fg'}`}
-              >
-                {t(`drivers.${key}`)}
-              </button>
-            ))}
-          </div>
-        }
+        aside={<Segmented label={t('drivers.filter')} options={FILTERS} value={filter} onChange={setFilter} text={(key) => t(`drivers.${key}`)} className="w-full sm:w-auto [&>button]:min-h-11 [&>button]:px-4" />}
       />
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {list.map((d, i) => {
           const team = d.teamId ? findTeam(d.teamId) : undefined;
           const row = rank.get(d.id);
@@ -83,45 +69,48 @@ export function DriverDetail() {
 
   return (
     <div style={teamVars(team)}>
-      <header className="reveal relative grid items-end gap-x-10 gap-y-6 overflow-hidden border-b border-line pb-8 pt-10 md:grid-cols-[auto_minmax(0,1fr)_auto] md:pt-16">
-        <span className="display pointer-events-none absolute -top-6 right-0 text-[clamp(10rem,30vw,22rem)] leading-none text-(--team) opacity-[0.09]" aria-hidden="true">
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--team)_16%,transparent),transparent)]" aria-hidden="true" />
+      <header className="reveal relative grid items-end gap-x-10 gap-y-6 overflow-hidden border-b border-line-strong pt-10 md:grid-cols-[minmax(0,1fr)_auto] md:pt-20">
+        {/* El número del piloto, enorme, como dorsal de fondo. */}
+        <span className="num pointer-events-none absolute -bottom-[0.14em] right-[clamp(8rem,24vw,22rem)] hidden text-[clamp(10rem,24vw,21rem)] font-bold leading-none text-(--team) opacity-[0.16] md:block" aria-hidden="true">
           {driver.number ?? driver.code}
         </span>
-        <div className="relative flex items-end gap-4">
-          <DriverPortrait driver={driver} team={team} className="h-44 w-36 md:h-56 md:w-44" />
-          <div className="flex flex-col items-center gap-3 pb-2">
-            <Helmet driver={driver} team={team} size={72} />
-            {team && <TeamLogo team={team} size={44} />}
-          </div>
-        </div>
-        <div className="relative min-w-0">
-          <p className="label mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+
+        <div className="relative min-w-0 pb-8">
+          <p className="label mb-4 flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="border border-line-strong px-1.5 py-px text-fg-2">{driver.countryCode}</span>
             <span>{f.country(driver.countryCode)}</span>
             <span aria-hidden="true">·</span>
-            <span className="text-(--team)">{t(`driver.role.${driver.role}`)}{flag('role')}</span>
+            <span className="text-(--team-ink)">{t(`driver.role.${driver.role}`)}{flag('role')}</span>
           </p>
-          <h1 className="display text-[clamp(2.25rem,5.4vw,4.5rem)]">
-            <span className="block text-[0.5em] font-medium text-fg-2">{driver.givenName}</span>
+          <h1 className="display text-[clamp(2.25rem,6.6vw,6.5rem)]">
+            <span className="mb-2 block font-sans text-[max(0.32em,1.125rem)] font-medium normal-case tracking-normal text-fg-2 [font-stretch:100%]">{driver.givenName}</span>
             {driver.familyName}
           </h1>
-          {team ? (
-            <Link to={`/teams/${team.id}`} className="mt-3 inline-flex items-center gap-2 text-lg text-fg-2 hover:text-signal">
-              <span className="h-4 w-1 bg-(--team)" aria-hidden="true" />
-              {team.name}
-            </Link>
-          ) : (
-            <p className="mt-3 text-lg text-fg-3">{t('driver.freeAgent')}</p>
-          )}
+          <div className="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+            {team ? (
+              <Link to={`/teams/${team.id}`} className="group inline-flex items-center gap-3 text-lg text-fg-2 hover:text-fg">
+                <TeamLogo team={team} size={32} />
+                <span className="underline-offset-4 group-hover:underline">{team.name}</span>
+              </Link>
+            ) : (
+              <p className="text-lg text-fg-3">{t('driver.freeAgent')}</p>
+            )}
+            <p className="flex items-baseline gap-2">
+              <span className="num text-4xl font-semibold leading-none">{driverOverall(driver)}</span>
+              <span className="label">{t('driver.overall')}</span>
+            </p>
+          </div>
         </div>
-        <p className="relative">
-          <span className="display block text-7xl leading-none">{driverOverall(driver)}</span>
-          <span className="label">{t('driver.overall')}</span>
-        </p>
+
+        <div className="relative flex items-end justify-end gap-3">
+          <Helmet driver={driver} team={team} size={64} />
+          <DriverPortrait driver={driver} team={team} className="h-48 w-40 md:h-72 md:w-60" />
+        </div>
       </header>
       <div className="h-1 bg-(--team)" aria-hidden="true" />
 
-      <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-4">
+      <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-4">
         <Stat label={t('driver.number')} value={<span className="num">{driver.number ?? '—'}</span>} />
         <Stat label={t('driver.nationality')} value={f.country(driver.countryCode)} sub={<>{t('driver.age', { count: ageOn(driver.dateOfBirth) })}{flag('dateOfBirth')}</>} />
         <Stat label={t('driver.championship')} value={row ? <span className="num">P{row.position}</span> : '—'} sub={row && `${row.points} ${t('table.points').toLowerCase()}`} />
@@ -139,11 +128,11 @@ export function DriverDetail() {
       </dl>
 
       <Section title={t('driver.attributes')} note={driver.attributesEstimated ? t('driver.attributesEstimated') : undefined}>
-        <div className="grid items-center gap-x-14 gap-y-8 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)]">
-          <div className="flex justify-center">
+        <div className="grid items-center gap-x-16 gap-y-8 lg:grid-cols-[minmax(0,27rem)_minmax(0,1fr)]">
+          <div className="panel bracket flex justify-center p-4">
             <Radar title={t('driver.radar', { name: driverName(driver) })} axes={RADAR_KEYS.map((k) => ({ label: t(`attrShort.${k}`), value: a[k] }))} />
           </div>
-          <div className="grid gap-x-12 border-t border-line-strong sm:grid-cols-2">
+          <div className="grid gap-x-12 sm:grid-cols-2">
             {[...RADAR_KEYS, ...BAR_KEYS].map((key) => {
               const value = a[key];
               if (value === undefined) return null;
@@ -177,11 +166,11 @@ function SeasonStrip({ driver }: { driver: Driver }) {
           const info = calendar.rounds.find((r) => r.round === round);
           const done = /^\d+$/.test(entry.positionText);
           return (
-            <li key={round} className="w-14 bg-ink-900" style={teamVars(findTeam(entry.teamId))}>
-              <Link to={`/calendar/${round}`} title={info ? f.gp(info) : undefined} className="block pb-2 text-center hover:bg-ink-850">
-                <span className="block h-1 bg-(--team)" aria-hidden="true" />
-                <span className="label mt-2 block text-[0.6875rem]">{t('calendar.roundShort', { round })}</span>
-                <span className={`num block text-xl leading-8 ${!done ? 'text-fg-4' : entry.position <= 3 ? 'font-semibold text-(--team)' : entry.points ? 'text-fg' : 'text-fg-3'}`}>
+            <li key={round} className="w-14 bg-ink-950" style={teamVars(findTeam(entry.teamId))}>
+              <Link to={`/calendar/${round}`} title={info ? f.gp(info) : undefined} className="block pb-2 text-center transition-colors hover:bg-ink-850">
+                <span className="block h-0.5 bg-(--team)" aria-hidden="true" />
+                <span className="label mt-2.5 block text-[0.625rem]">{t('calendar.roundShort', { round })}</span>
+                <span className={`num block text-xl leading-8 ${!done ? 'text-fg-4' : entry.position <= 3 ? 'font-semibold text-(--team-ink)' : entry.points ? 'text-fg' : 'text-fg-3'}`}>
                   {done ? entry.position : '—'}
                 </span>
                 <span className="num block text-xs text-fg-4">{entry.points ? `+${entry.points}` : ' '}</span>

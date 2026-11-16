@@ -21,17 +21,20 @@ export function Standings() {
     <>
       <PageHeader title={t('standings.title')} lead={t('standings.lead')} />
 
-      <div className="sticky top-14 z-30 -mx-4 border-b border-line bg-ink-950/95 px-4 py-4 backdrop-blur-md md:-mx-8 md:px-8">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6">
-          <p className="display text-2xl md:text-3xl" aria-live="polite">
-            {label}
+      {/* Control de ronda: se queda pegado bajo la cabecera mientras se leen las tablas. */}
+      <div className="sticky top-[calc(3.5rem+3px)] z-30 -mx-4 border-b border-line-strong bg-ink-950/95 px-4 pb-2 pt-4 backdrop-blur-md md:-mx-8 md:px-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+          <p className="min-w-0" aria-live="polite">
+            <span className="cond text-2xl md:text-3xl">{label}</span>
             {info && (
-              <Link to={`/calendar/${info.round}`} className="ml-3 text-fg-3 hover:text-signal">
+              <Link to={`/calendar/${info.round}`} className="ml-3 text-fg-3 underline-offset-4 hover:text-fg hover:underline">
                 {f.gp(info)}
               </Link>
             )}
           </p>
-          <p className="num text-sm text-fg-3">{round} / {results.lastRound}</p>
+          <p className="num text-sm text-fg-3">
+            {String(round).padStart(2, '0')} / {results.lastRound}
+          </p>
         </div>
         <input
           type="range"
@@ -42,19 +45,24 @@ export function Standings() {
           onChange={(e) => setRound(Number(e.target.value))}
           aria-label={t('standings.slider')}
           aria-valuetext={label}
-          className="mt-3 h-8 w-full cursor-pointer accent-(--color-signal)"
+          className="range mt-1"
         />
+        {/* Una marca por ronda disputada, alineada con el recorrido del control. */}
+        <div className="-mt-1 flex justify-between px-[0.375rem]" aria-hidden="true">
+          {Array.from({ length: results.lastRound + 1 }, (_, i) => (
+            <span key={i} className={`h-1.5 w-px ${i <= round ? 'bg-fg-3' : 'bg-ink-700'}`} />
+          ))}
+        </div>
       </div>
 
-      <div className="mt-8 grid gap-x-14 gap-y-12 lg:grid-cols-2">
+      <div className="mt-10 grid gap-x-16 gap-y-14 lg:grid-cols-2">
         <section>
-          <h2 className="display mb-3 text-3xl md:text-4xl">{t('standings.drivers')}</h2>
+          <h2 className="display mb-4 text-xl md:text-2xl">{t('standings.drivers')}</h2>
           {driversTable.length ? <DriverStandingsTable rows={driversTable} caption={`${t('standings.drivers')} — ${label}`} /> : <p className="text-fg-3">{t('standings.empty')}</p>}
         </section>
         <section>
-          <h2 className="display mb-3 text-3xl md:text-4xl">{t('standings.constructors')}</h2>
-          <ConstructorStandingsTable rows={teamsTable} caption={`${t('standings.constructors')} — ${label}`} />
-        </section>
+          <h2 className="display mb-4 text-xl md:text-2xl">{t('standings.constructors')}</h2>
+          <ConstructorStandingsTable rows={teamsTable} caption={`${t('standings.constructors')} — ${label}`} />        </section>
       </div>
     </>
   );

@@ -21,39 +21,37 @@ const standings = () => constructorStandings(results.rounds, results.lastRound, 
 export function Teams() {
   const { t } = useTranslation();
   const table = standings();
+  const leader = table[0]?.points ?? 0;
   return (
     <>
       <PageHeader kicker={t('teams.sortNote', { round: results.lastRound })} title={t('teams.title')} lead={t('teams.lead')} />
-      <ul className="mt-8 grid gap-px border border-line bg-line sm:grid-cols-2 xl:grid-cols-3">
+      <ul>
         {table.map((row, i) => {
           const team = findTeam(row.id);
           if (!team) return null;
           return (
-            <li key={team.id} className="reveal bg-ink-950" style={{ ...teamVars(team), ...stagger(i) }}>
-              <Link to={`/teams/${team.id}`} className="group relative flex h-full flex-col gap-6 overflow-hidden bg-ink-900 p-5 transition-colors hover:bg-ink-850 md:p-6">
-                <span className="absolute inset-y-0 left-0 w-1 bg-(--team)" aria-hidden="true" />
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <p className="num text-sm text-fg-3">P{row.position}</p>
-                    <h2 className="display mt-1 text-4xl group-hover:text-signal">{team.name}</h2>
-                    <p className="mt-1 truncate text-sm text-fg-3">{team.powerUnit} · {team.chassis}</p>
-                  </div>
-                  <TeamLogo team={team} size={48} />
-                </div>
-                <div className="mt-auto flex items-end justify-between gap-4">
-                  <ul className="text-[0.9375rem] text-fg-2">
-                    {raceDrivers(team.id).map((d) => (
-                      <li key={d.id} className="flex items-baseline gap-2">
-                        <span className="num w-6 text-right text-xs text-fg-4">{d.number}</span>
-                        {driverName(d)}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-right">
-                    <span className="num block text-3xl font-semibold leading-none">{row.points}</span>
-                    <span className="label text-[0.6875rem]">{t('table.points')}</span>
-                  </p>
-                </div>
+            <li key={team.id} className="reveal" style={{ ...teamVars(team), ...stagger(Math.min(i, 10)) }}>
+              <Link to={`/teams/${team.id}`} className="row row-link group relative grid grid-cols-[2rem_minmax(0,1fr)_auto] items-center gap-x-4 py-5 md:grid-cols-[3rem_3.5rem_minmax(0,1.5fr)_minmax(0,1fr)_7rem] md:gap-x-8 md:py-6">
+                <span className="num text-sm font-semibold text-fg-3">{String(row.position).padStart(2, '0')}</span>
+                <span className="hidden md:block"><TeamLogo team={team} size={44} /></span>
+                <span className="min-w-0">
+                  <span className="display block truncate text-[clamp(1.5rem,3.6vw,3.25rem)] transition-colors group-hover:text-(--team-ink)">{team.name}</span>
+                  <span className="mt-1.5 block truncate text-sm text-fg-3">{team.powerUnit} · {team.chassis}</span>
+                </span>
+                <span className="col-span-2 col-start-2 mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[0.9375rem] text-fg-2 md:col-span-1 md:col-start-auto md:mt-0 md:block">
+                  {raceDrivers(team.id).map((d) => (
+                    <span key={d.id} className="flex items-baseline gap-2">
+                      <span className="num w-6 text-right text-xs text-fg-4">{d.number}</span>
+                      {driverName(d)}
+                    </span>
+                  ))}
+                </span>
+                <span className="col-start-3 row-start-1 text-right md:col-start-auto md:row-start-auto">
+                  <span className="num block text-2xl font-semibold leading-none md:text-3xl">{row.points}</span>
+                  <span className="label mt-1 block text-[0.625rem]">{t('table.points')}</span>
+                </span>
+                {/* Puntos en proporción al líder, sobre la línea de la fila. */}
+                <span className="absolute inset-x-0 -bottom-px h-0.5 origin-left bg-(--team)" style={{ transform: `scaleX(${leader ? row.points / leader : 0})` }} aria-hidden="true" />
               </Link>
             </li>
           );
@@ -76,16 +74,18 @@ export function TeamDetail() {
 
   return (
     <div style={teamVars(team)}>
+      {/* La ficha se tiñe del color del equipo: un velo arriba y la franja bajo la cabecera. */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--team)_16%,transparent),transparent)]" aria-hidden="true" />
       <PageHeader
         kicker={team.fullName}
         title={team.name}
         aside={
-          <div className="flex items-center gap-6">
-            <TeamLogo team={team} size={88} />
+          <div className="flex items-end gap-6">
+            <TeamLogo team={team} size={80} />
             {row && (
               <p>
-                <span className="display block text-6xl leading-none">P{row.position}</span>
-                <span className="num text-fg-3">{row.points} {t('table.points').toLowerCase()}</span>
+                <span className="num block text-6xl font-semibold leading-none md:text-7xl">P{row.position}</span>
+                <span className="label mt-2 block">{row.points} {t('table.points')}</span>
               </p>
             )}
           </div>
@@ -93,7 +93,7 @@ export function TeamDetail() {
       />
       <div className="h-1 bg-(--team)" aria-hidden="true" />
 
-      <dl className="mt-8 grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-5">
+      <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 md:grid-cols-5">
         <Stat label={t('team.principal')} value={team.principal} />
         <Stat label={t('team.powerUnit')} value={team.powerUnit} />
         <Stat label={t('team.chassis')} value={team.chassis} />
@@ -109,9 +109,9 @@ export function TeamDetail() {
         />
       </dl>
 
-      <div className="grid gap-x-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-        <Section title={t('team.car')} note={<><span className="num text-fg">{carOverall(team)}</span> · {t('team.carOverall')}</>}>
-          <div className="border-t border-line-strong">
+      <div className="grid gap-x-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+        <Section title={t('team.car')} note={<><span className="num font-semibold text-fg">{carOverall(team)}</span> · {t('team.carOverall')}</>}>
+          <div>
             {CAR_KEYS.map((key) => (
               <RatingBar key={key} label={t(`car.${key}`)} value={team.car[key]} estimated={key === 'weight'} />
             ))}
@@ -141,7 +141,7 @@ export function TeamDetail() {
       </Section>
 
       <Section title={t('team.staff')}>
-        <ul className="grid gap-x-10 border-t border-line-strong sm:grid-cols-2 xl:grid-cols-3">
+        <ul className="grid gap-x-12 sm:grid-cols-2 xl:grid-cols-3">
           {people.map((s) => {
             const driver = s.driverId ? findDriver(s.driverId) : undefined;
             return (
@@ -177,13 +177,13 @@ function SeasonGrid({ team }: { team: Team }) {
           const round = calendar.rounds.find((r) => r.round === rr.round);
           const cars = rr.race.filter((e) => e.teamId === team.id);
           return (
-            <li key={rr.round} className="w-14 bg-ink-900">
-              <Link to={`/calendar/${rr.round}`} title={round ? f.gp(round) : undefined} className="block py-2 text-center hover:bg-ink-850">
-                <span className="label block text-[0.6875rem]">{t('calendar.roundShort', { round: rr.round })}</span>
+            <li key={rr.round} className="w-14 bg-ink-950">
+              <Link to={`/calendar/${rr.round}`} title={round ? f.gp(round) : undefined} className="block py-2.5 text-center transition-colors hover:bg-ink-850">
+                <span className="label block text-[0.625rem]">{t('calendar.roundShort', { round: rr.round })}</span>
                 {cars.map((e) => {
                   const done = /^\d+$/.test(e.positionText);
                   return (
-                    <span key={e.driverId} className={`num block text-lg leading-7 ${!done ? 'text-fg-4' : e.position <= 3 ? 'font-semibold text-(--team)' : e.points ? 'text-fg' : 'text-fg-3'}`}>
+                    <span key={e.driverId} className={`num block text-lg leading-7 ${!done ? 'text-fg-4' : e.position <= 3 ? 'font-semibold text-(--team-ink)' : e.points ? 'text-fg' : 'text-fg-3'}`}>
                       {done ? e.position : '—'}
                     </span>
                   );

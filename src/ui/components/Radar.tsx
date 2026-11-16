@@ -15,27 +15,32 @@ export function Radar({ axes, title }: { axes: RadarAxis[]; title: string }) {
   };
   const ring = (scale: number) => axes.map((_, i) => point(i, radius * scale).join(',')).join(' ');
   // La escala empieza en 40: por debajo no hay pilotos y así se aprecian las diferencias.
-  const shape = axes.map((a, i) => point(i, radius * Math.max(0.04, (a.value - 40) / 60)).join(',')).join(' ');
+  const reach = (value: number) => radius * Math.max(0.04, (value - 40) / 60);
+  const shape = axes.map((a, i) => point(i, reach(a.value)).join(',')).join(' ');
 
   return (
-    <svg viewBox={`-56 0 ${size + 112} ${size}`} className="h-auto w-full max-w-[27rem]" role="img" aria-label={title}>
+    <svg viewBox={`-60 0 ${size + 120} ${size}`} className="h-auto w-full max-w-[27rem]" role="img" aria-label={title}>
       {[0.25, 0.5, 0.75, 1].map((s) => (
-        <polygon key={s} points={ring(s)} fill="none" stroke="var(--color-line-strong)" strokeWidth={s === 1 ? 1.2 : 0.6} />
+        <polygon key={s} points={ring(s)} fill="none" stroke={s === 1 ? 'var(--color-line-strong)' : 'var(--color-line)'} strokeWidth="1" />
       ))}
       {axes.map((_, i) => {
         const [x, y] = point(i, radius);
         return <line key={i} x1={c} y1={c} x2={x} y2={y} stroke="var(--color-line)" />;
       })}
-      <polygon points={shape} fill="var(--team)" fillOpacity="0.28" stroke="var(--team)" strokeWidth="2" strokeLinejoin="round" />
+      <polygon points={shape} fill="var(--team)" fillOpacity="0.2" stroke="var(--team-ink)" strokeWidth="1.5" strokeLinejoin="round" />
+      {axes.map((a, i) => {
+        const [x, y] = point(i, reach(a.value));
+        return <rect key={i} x={x - 2.5} y={y - 2.5} width="5" height="5" fill="var(--team-ink)" />;
+      })}
       {axes.map((a, i) => {
         const [x, y] = point(i, radius + 20);
         const anchor = Math.abs(x - c) < 8 ? 'middle' : x > c ? 'start' : 'end';
         return (
           <g key={a.label}>
-            <text x={x} y={y - 2} textAnchor={anchor} fontFamily="var(--font-display)" fontWeight="600" fontSize="11.5" letterSpacing="0.06em" fill="var(--color-fg-3)">
+            <text x={x} y={y - 2} textAnchor={anchor} fontFamily="var(--font-mono)" fontWeight="500" fontSize="10" letterSpacing="0.08em" fill="var(--color-fg-3)">
               {a.label.toUpperCase()}
             </text>
-            <text x={x} y={y + 12} textAnchor={anchor} fontFamily="var(--font-mono)" fontWeight="600" fontSize="12" fill="var(--color-fg)">
+            <text x={x} y={y + 12} textAnchor={anchor} fontFamily="var(--font-mono)" fontWeight="600" fontSize="12.5" fill="var(--color-fg)">
               {a.value}
             </text>
           </g>

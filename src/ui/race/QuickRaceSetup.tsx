@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -8,12 +8,12 @@ import { hash01 } from '../../engine/rng.ts';
 import { buildCarSetup, buildRaceConfig, simulatedGrid, type Entry } from '../../engine/race/setup.ts';
 import { planOptions, type StrategyContext } from '../../engine/race/strategy.ts';
 import type { StrategyPlan } from '../../engine/race/types.ts';
-import { PageHeader, Section } from '../components/bits.tsx';
+import { PageHeader } from '../components/bits.tsx';
 import { TeamLogo } from '../components/TeamLogo.tsx';
 import { TrackMap } from '../components/TrackMap.tsx';
 import { teamVars, useFormat } from '../format.ts';
 import { startRace } from './controller.ts';
-import { formatLap, TyreChip } from './panels.tsx';
+import { formatLap, TYRE_COLOR } from './panels.tsx';
 
 const DEFAULT_ROUND = calendar.rounds.find((r) => r.circuitId === 'monza')?.round ?? 1;
 
@@ -21,6 +21,22 @@ const DEFAULT_ROUND = calendar.rounds.find((r) => r.circuitId === 'monza')?.roun
 function plansFor(ctx: StrategyContext): StrategyPlan[] {
   const seen = new Set<number>();
   return planOptions(ctx).filter((p) => (seen.has(p.stops) ? false : (seen.add(p.stops), true)));
+}
+
+/** Paso numerado del formulario: la preparación se lee como una lista de comprobación antes de salir. */
+function Step({ n, title, note, children }: { n: number; title: string; note?: ReactNode; children: ReactNode }) {
+  return (
+    <section className="grid gap-x-8 gap-y-4 border-t border-line-strong py-8 first:border-t-0 md:grid-cols-[3rem_minmax(0,1fr)]">
+      <span className="num text-sm font-semibold text-fg-4" aria-hidden="true">{String(n).padStart(2, '0')}</span>
+      <div className="min-w-0">
+        <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+          <h2 className="display text-lg md:text-xl">{title}</h2>
+          {note && <p className="max-w-[52ch] text-sm text-fg-3">{note}</p>}
+        </div>
+        {children}
+      </div>
+    </section>
+  );
 }
 
 export function QuickRaceSetup() {
@@ -79,17 +95,17 @@ export function QuickRaceSetup() {
     navigate('/race/live');
   };
 
-  const pillClass = (active: boolean) => `min-h-11 cursor-pointer border px-4 text-left transition-colors ${active ? 'border-fg bg-ink-850' : 'border-line-strong hover:bg-ink-900'}`;
+  const optionClass = (active: boolean) => `min-h-11 cursor-pointer border px-4 text-left transition-colors ${active ? 'border-fg bg-ink-850' : 'border-line-strong hover:border-fg-3 hover:bg-ink-900'}`;
 
   return (
-    <>
+    <div style={teamVars(team)}>
       <PageHeader kicker={t('home.mode.quick.title')} title={t('race.quick')} lead={t('race.quickLead')} />
 
-      <div className="grid gap-x-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)]">
-        <div className="min-w-0">
-          <Section title={t('race.round')}>
+      <div className="grid gap-x-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)]">
+        <div className="min-w-0 border-b border-line-strong">
+          <Step n={1} title={t('race.round')}>
             <label className="sr-only" htmlFor="quick-round">{t('race.round')}</label>
-            <select id="quick-round" value={round} onChange={(e) => { setRound(Number(e.target.value)); setSwaps({}); setPlanIndex({}); }} className="min-h-12 w-full cursor-pointer border border-line-strong bg-ink-900 px-3 text-lg">
+            <select id="quick-round" value={round} onChange={(e) => { setRound(Number(e.target.value)); setSwaps({}); setPlanIndex({}); }} className="field text-lg">
               {calendar.rounds.map((r) => (
                 <option key={r.round} value={r.round}>
                   {String(r.round).padStart(2, '0')} · {f.gp(r)}
@@ -100,25 +116,29 @@ export function QuickRaceSetup() {
               {real ? t('race.gridReal') : t('race.gridSim')}
               {reference.estimated && <span className="mt-1 block text-timing-slower">{t('race.refEstimated')}</span>}
             </p>
-          </Section>
+          </Step>
 
-          <Section title={t('race.team')}>
+          <Step n={2} title={t('race.team')}>
             <div role="radiogroup" aria-label={t('race.team')} className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4">
-              {teams.map((item) => (
-                <button key={item.id} type="button" role="radio" aria-checked={teamId === item.id} onClick={() => { setTeamId(item.id); setSwaps({}); setPlanIndex({}); }} className={`${pillClass(teamId === item.id)} flex items-center gap-3 py-2`} style={teamVars(item)}>
-                  <TeamLogo team={item} size={28} />
-                  <span className="display truncate text-base">{item.name}</span>
-                </button>
-              ))}
+              {teams.map((item) => {
+                const active = teamId === item.id;
+                return (
+                  <button key={item.id} type="button" role="radio" aria-checked={active} onClick={() => { setTeamId(item.id); setSwaps({}); setPlanIndex({}); }} className={`${optionClass(active)} relative flex items-center gap-3 py-2`} style={teamVars(item)}>
+                    {active && <span className="absolute inset-y-0 left-0 w-1 bg-(--team)" aria-hidden="true" />}
+                    <TeamLogo team={item} size={28} />
+                    <span className="cond truncate text-lg leading-none">{item.name}</span>
+                  </button>
+                );
+              })}
             </div>
-          </Section>
+          </Step>
 
-          <Section title={t('race.drivers')}>
+          <Step n={3} title={t('race.drivers')}>
             <div className="grid gap-3 sm:grid-cols-2">
               {seats.map((seat, i) => (
                 <div key={seat}>
-                  <label className="label mb-1 block" htmlFor={`seat-${i}`}>{t('race.seat', { n: i + 1 })}</label>
-                  <select id={`seat-${i}`} value={swaps[seat] ?? seat} onChange={(e) => setSwaps((s) => ({ ...s, [seat]: e.target.value }))} className="min-h-12 w-full cursor-pointer border border-line-strong bg-ink-900 px-3">
+                  <label className="label mb-1.5 block" htmlFor={`seat-${i}`}>{t('race.seat', { n: i + 1 })}</label>
+                  <select id={`seat-${i}`} value={swaps[seat] ?? seat} onChange={(e) => setSwaps((s) => ({ ...s, [seat]: e.target.value }))} className="field">
                     {drivers
                       .filter((d) => d.id === seat || !grid.some((e) => e.driverId === d.id) || (swaps[seat] ?? seat) === d.id)
                       .map((d) => (
@@ -130,9 +150,9 @@ export function QuickRaceSetup() {
                 </div>
               ))}
             </div>
-          </Section>
+          </Step>
 
-          <Section title={t('race.strategy')} note={t('race.strategyNote')}>
+          <Step n={4} title={t('race.strategy')} note={t('race.strategyNote')}>
             <div className="grid gap-6 sm:grid-cols-2">
               {options.map(({ entry, plans }) => {
                 const driver = findDriver(entry.driverId);
@@ -140,19 +160,20 @@ export function QuickRaceSetup() {
                 const chosen = planIndex[entry.driverId] ?? 0;
                 return (
                   <div key={entry.driverId} role="radiogroup" aria-label={`${t('race.strategy')}: ${driver ? driverName(driver) : ''}`}>
-                    <p className="display mb-2 text-lg">{driver ? driverName(driver) : entry.driverId}</p>
+                    <p className="cond mb-2 text-xl">{driver ? driverName(driver) : entry.driverId}</p>
                     <div className="grid gap-2">
                       {plans.map((plan, i) => (
-                        <button key={i} type="button" role="radio" aria-checked={chosen === i} onClick={() => setPlanIndex((s) => ({ ...s, [entry.driverId]: i }))} className={`${pillClass(chosen === i)} py-3`}>
+                        <button key={i} type="button" role="radio" aria-checked={chosen === i} onClick={() => setPlanIndex((s) => ({ ...s, [entry.driverId]: i }))} className={`${optionClass(chosen === i)} py-3`}>
                           <span className="flex items-baseline justify-between gap-3">
                             <span className="font-semibold">{t('race.stops', { count: plan.stops })}</span>
-                            <span className="num text-sm text-fg-3">{i === 0 ? t('race.fastest') : t('race.slower', { value: (plan.estTimeS - best).toFixed(1) })}</span>
+                            <span className={`num text-sm ${i === 0 ? 'text-timing-personal' : 'text-fg-3'}`}>{i === 0 ? t('race.fastest') : t('race.slower', { value: (plan.estTimeS - best).toFixed(1) })}</span>
                           </span>
-                          <span className="mt-2 flex h-6 w-full overflow-hidden">
+                          {/* Los stints como en la tabla de estrategia de la carrera: bloques de color con su letra. */}
+                          <span className="mt-2.5 flex h-5 w-full gap-0.5">
                             {plan.stints.map((stint, k) => (
-                              <span key={k} className="flex items-center gap-1 border-r-2 border-ink-950 bg-ink-800 px-1" style={{ width: `${(stint.laps / circuit.laps) * 100}%` }}>
-                                <TyreChip compound={stint.compound} size={18} />
-                                <span className="num text-xs text-fg-2">{stint.laps}</span>
+                              <span key={k} className="num flex items-center justify-center gap-1 text-[0.6875rem] font-semibold text-ink-950" style={{ width: `${(stint.laps / circuit.laps) * 100}%`, background: TYRE_COLOR[stint.compound] }}>
+                                {t(`race.tyreLetter.${stint.compound}`)} {stint.laps}
+                                <span className="sr-only"> {t(`race.tyre.${stint.compound}`)}</span>
                               </span>
                             ))}
                           </span>
@@ -163,36 +184,53 @@ export function QuickRaceSetup() {
                 );
               })}
             </div>
-          </Section>
+          </Step>
 
-          <Section title={t('race.conditions')} note={t('race.rainChance', { value: f.percent(circuit.rainProbability) })}>
+          <Step n={5} title={t('race.conditions')} note={t('race.rainChance', { value: f.percent(circuit.rainProbability) })}>
             <div role="radiogroup" aria-label={t('race.conditions')} className="flex flex-wrap gap-2">
               {(['auto', 'dry'] as const).map((key) => (
-                <button key={key} type="button" role="radio" aria-checked={weather === key} onClick={() => setWeather(key)} className={pillClass(weather === key)}>
+                <button key={key} type="button" role="radio" aria-checked={weather === key} onClick={() => setWeather(key)} className={optionClass(weather === key)}>
                   {t(key === 'auto' ? 'race.weatherAuto' : 'race.weatherDry')}
                 </button>
               ))}
             </div>
-          </Section>
+          </Step>
         </div>
 
-        <aside className="lg:sticky lg:top-20 lg:self-start">
-          <Section title={f.gp(info)}>
-            <div className="panel p-4" style={teamVars(team)}>
+        {/* Resumen pegado: circuito, cifras clave y el botón de salida siempre a mano. */}
+        <aside className="mt-8 lg:sticky lg:top-24 lg:self-start">
+          <div className="panel bracket">
+            <p className="label flex items-center justify-between border-b border-line px-4 py-3">
+              <span className="truncate">{f.gp(info)}</span>
+              <span className="num">R{String(round).padStart(2, '0')}</span>
+            </p>
+            <div className="p-4">
               <TrackMap circuit={circuit} detailed className="h-auto w-full" />
             </div>
-            <dl className="mt-4 grid grid-cols-2 gap-4 text-sm">
-              <div><dt className="label">{t('round.laps')}</dt><dd className="num text-lg">{circuit.laps}</dd></div>
-              <div><dt className="label">{t('round.pitLoss')}</dt><dd className="num text-lg">{t('round.seconds', { value: circuit.pit.timeLossS })}</dd></div>
-              <div><dt className="label">{t('round.tyreWear')}</dt><dd className="num text-lg">{circuit.tyreWear}</dd></div>
-              <div><dt className="label">{t('race.refLap')}</dt><dd className="num text-lg">{formatLap(reference.seconds)}</dd></div>
+            <dl className="grid grid-cols-2 gap-px border-t border-line bg-line">
+              {[
+                [t('round.laps'), circuit.laps],
+                [t('round.pitLoss'), t('round.seconds', { value: circuit.pit.timeLossS })],
+                [t('round.tyreWear'), circuit.tyreWear],
+                [t('race.refLap'), formatLap(reference.seconds)],
+              ].map(([label, value]) => (
+                <div key={label} className="bg-ink-900 px-4 py-3">
+                  <dt className="label text-[0.625rem]">{label}</dt>
+                  <dd className="num mt-1 text-lg font-semibold">{value}</dd>
+                </div>
+              ))}
             </dl>
-            <button type="button" onClick={start} disabled={myEntries.length === 0} className="display mt-6 min-h-14 w-full cursor-pointer bg-signal px-6 text-lg text-white transition-colors hover:bg-fg hover:text-ink-950">
-              {t('race.start')}
-            </button>
-          </Section>
+          </div>
+          <button type="button" onClick={start} disabled={myEntries.length === 0} className="btn btn-solid mt-3 min-h-14 w-full text-[0.9375rem] disabled:cursor-not-allowed disabled:opacity-40">
+            {t('race.start')}
+            <span aria-hidden="true">→</span>
+          </button>
+          <p className="mt-3 flex items-center gap-2 text-sm text-fg-3">
+            <span className="h-4 w-1 bg-(--team)" aria-hidden="true" />
+            {team.name}
+          </p>
         </aside>
       </div>
-    </>
+    </div>
   );
 }

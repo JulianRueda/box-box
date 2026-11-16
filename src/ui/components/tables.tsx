@@ -7,11 +7,13 @@ import { teamVars } from '../format.ts';
 import { DriverCell, TeamCell } from './bits.tsx';
 import { TeamLogo } from './TeamLogo.tsx';
 
-const th = 'label py-3 font-semibold';
+const th = 'label py-3';
 const isClassified = (e: RaceEntry) => /^\d+$/.test(e.positionText);
 
+/** Posición: los tres primeros en blanco pleno, el resto un paso atrás. */
 function Pos({ value }: { value: string | number }) {
-  return <span className="display block w-9 text-2xl text-fg">{value}</span>;
+  const podium = typeof value === 'number' && value <= 3;
+  return <span className={`num block w-8 text-lg font-semibold ${podium ? 'text-fg' : 'text-fg-3'}`}>{value}</span>;
 }
 
 /** Resultado de carrera o sprint. */
@@ -42,11 +44,11 @@ export function RaceTable({ entries, caption }: { entries: RaceEntry[]; caption:
                 <td><Pos value={done ? e.position : '—'} /></td>
                 <td><DriverCell driverId={e.driverId} teamId={e.teamId} /></td>
                 <td className="hidden lg:table-cell"><TeamCell teamId={e.teamId} /></td>
-                <td className="num hidden text-right text-fg-3 sm:table-cell">{e.grid === 0 ? t('table.pitLane') : e.grid}</td>
-                <td className="num hidden text-right text-fg-3 md:table-cell">{e.laps}</td>
-                <td className="num whitespace-nowrap text-right text-[0.9375rem]">
+                <td className="num hidden text-right text-sm text-fg-3 sm:table-cell">{e.grid === 0 ? t('table.pitLane') : e.grid}</td>
+                <td className="num hidden text-right text-sm text-fg-3 md:table-cell">{e.laps}</td>
+                <td className="num whitespace-nowrap text-right text-sm">
                   {fastest && (
-                    <abbr title={`${t('table.fastestLap')} ${e.fastestLap?.time ?? ''}`} className="label mr-2 bg-timing-best px-1.5 py-0.5 text-[0.6875rem] text-fg no-underline">
+                    <abbr title={`${t('table.fastestLap')} ${e.fastestLap?.time ?? ''}`} className="label mr-2 border border-timing-best px-1.5 py-0.5 text-[0.625rem] text-timing-best no-underline">
                       {t('table.fastestLapShort')}
                     </abbr>
                   )}
@@ -64,7 +66,7 @@ export function RaceTable({ entries, caption }: { entries: RaceEntry[]; caption:
 
 export function QualifyingTable({ entries, caption }: { entries: QualifyingEntry[]; caption: string }) {
   const { t } = useTranslation();
-  const cell = (time: string | null) => <td className="num hidden text-right text-fg-3 sm:table-cell">{time ?? ''}</td>;
+  const cell = (time: string | null) => <td className="num hidden text-right text-sm text-fg-3 sm:table-cell">{time ?? ''}</td>;
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[20rem] border-collapse text-left">
@@ -88,8 +90,8 @@ export function QualifyingTable({ entries, caption }: { entries: QualifyingEntry
               <td className="hidden lg:table-cell"><TeamCell teamId={e.teamId} /></td>
               {cell(e.q1)}
               {cell(e.q2)}
-              <td className="num hidden text-right sm:table-cell">{e.q3 ?? ''}</td>
-              <td className="num text-right sm:hidden">{e.q3 ?? e.q2 ?? e.q1 ?? t('table.noTime')}</td>
+              <td className={`num hidden text-right text-sm sm:table-cell ${e.position === 1 ? 'font-semibold text-timing-best' : ''}`}>{e.q3 ?? ''}</td>
+              <td className="num text-right text-sm sm:hidden">{e.q3 ?? e.q2 ?? e.q1 ?? t('table.noTime')}</td>
             </tr>
           ))}
         </tbody>
@@ -120,7 +122,7 @@ export function DriverStandingsTable({ rows, caption, limit }: { rows: DriverSta
               <DriverCell driverId={r.id} teamId={r.teamId} />
               <PointsBar share={leader ? r.points / leader : 0} teamId={r.teamId} />
             </td>
-            <td className="num hidden text-right text-fg-3 sm:table-cell">{r.wins || ''}</td>
+            <td className="num hidden text-right text-sm text-fg-3 sm:table-cell">{r.wins || ''}</td>
             <td className="num text-right text-lg font-semibold">{r.points}</td>
           </tr>
         ))}
@@ -150,13 +152,13 @@ export function ConstructorStandingsTable({ rows, caption }: { rows: StandingRow
             <tr key={r.id} className="row">
               <td><Pos value={r.position} /></td>
               <td>
-                <Link to={`/teams/${r.id}`} className="flex items-center gap-3 py-2 hover:text-signal">
-                  {team && <TeamLogo team={team} size={26} />}
-                  <span className="display truncate text-xl">{team?.name ?? r.id}</span>
+                <Link to={`/teams/${r.id}`} className="group flex items-center gap-3 py-2.5">
+                  {team && <TeamLogo team={team} size={24} />}
+                  <span className="cond truncate text-lg underline-offset-4 group-hover:underline">{team?.name ?? r.id}</span>
                 </Link>
                 <PointsBar share={leader ? r.points / leader : 0} teamId={r.id} />
               </td>
-              <td className="num hidden text-right text-fg-3 sm:table-cell">{r.wins || ''}</td>
+              <td className="num hidden text-right text-sm text-fg-3 sm:table-cell">{r.wins || ''}</td>
               <td className="num text-right text-lg font-semibold">{r.points}</td>
             </tr>
           );
@@ -169,7 +171,7 @@ export function ConstructorStandingsTable({ rows, caption }: { rows: StandingRow
 /** Barra fina bajo la fila: puntos en proporción al líder. */
 function PointsBar({ share, teamId }: { share: number; teamId: string }) {
   return (
-    <div className="-mt-1 mb-1.5 h-0.5 bg-ink-800" style={teamVars(findTeam(teamId))} aria-hidden="true">
+    <div className="-mt-0.5 mb-2 h-0.5 bg-ink-850" style={teamVars(findTeam(teamId))} aria-hidden="true">
       <div className="h-full origin-left bg-(--team) transition-transform duration-500 ease-out-quart" style={{ transform: `scaleX(${share})` }} />
     </div>
   );

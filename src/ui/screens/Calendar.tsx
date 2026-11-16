@@ -21,7 +21,7 @@ export function Calendar() {
   return (
     <>
       <PageHeader title={t('calendar.title')} lead={t('calendar.lead', { total, done, left: total - done })} />
-      <ol className="mt-4">
+      <ol>
         {calendar.rounds.map((round, i) => {
           const result = findResult(round.round);
           const winner = result?.race[0];
@@ -29,22 +29,22 @@ export function Calendar() {
           const circuit = findCircuit(round.circuitId);
           return (
             <li key={round.round} className="reveal" style={{ ...teamVars(winner && findTeam(winner.teamId)), ...stagger(Math.min(i, 12)) }}>
-              <Link to={`/calendar/${round.round}`} className="row row-link group grid grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-x-4 py-4 md:grid-cols-[3.5rem_5.5rem_minmax(0,1.4fr)_minmax(0,1fr)_4rem] md:gap-x-6">
-                <span className="display text-3xl text-fg-4 group-hover:text-signal md:text-4xl">{String(round.round).padStart(2, '0')}</span>
+              <Link to={`/calendar/${round.round}`} className="row row-link group grid grid-cols-[2.25rem_minmax(0,1fr)_auto] items-center gap-x-4 py-4 md:grid-cols-[3rem_5.5rem_minmax(0,1.5fr)_minmax(0,1fr)_4rem] md:gap-x-8 md:py-5">
+                <span className={`num text-sm font-semibold ${result ? 'text-fg-3' : 'text-fg-4'}`}>{String(round.round).padStart(2, '0')}</span>
                 <span className="num hidden text-sm text-fg-3 md:block">{f.dayMonth(round.date)}</span>
                 <span className="min-w-0">
-                  <span className="display block truncate text-2xl md:text-3xl">
+                  <span className={`cond block truncate text-2xl leading-tight md:text-[2rem] ${result ? '' : 'text-fg-2'}`}>
                     {f.gp(round)}
-                    {round.sprint && <span className="label ml-3 border border-line-strong px-1.5 py-px align-middle text-[0.6875rem]">{t('calendar.sprint')}</span>}
+                    {round.sprint && <span className="label ml-3 border border-line-strong px-1.5 py-px align-middle text-[0.625rem]">{t('calendar.sprint')}</span>}
                   </span>
-                  <span className="block truncate text-sm text-fg-3">
+                  <span className="mt-0.5 block truncate text-sm text-fg-3">
                     <span className="num md:hidden">{f.dayMonth(round.date)} · </span>
                     {round.circuitName} · {round.locality}
                   </span>
                 </span>
-                <span className="col-start-2 mt-1 min-w-0 md:col-start-auto md:mt-0">
+                <span className="col-start-2 mt-1.5 min-w-0 md:col-start-auto md:mt-0">
                   {winnerDriver ? (
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-2.5">
                       <span className="h-5 w-1 shrink-0 bg-(--team)" aria-hidden="true" />
                       <span className="truncate text-fg-2">{driverName(winnerDriver)}</span>
                     </span>
@@ -52,7 +52,7 @@ export function Calendar() {
                     <span className="label text-fg-4">{t('calendar.upcoming')}</span>
                   )}
                 </span>
-                {circuit && <TrackMap circuit={circuit} className="col-start-3 row-span-2 row-start-1 h-12 w-12 opacity-60 transition-opacity group-hover:opacity-100 md:col-start-auto md:row-span-1 md:row-start-auto md:h-14 md:w-14" />}
+                {circuit && <TrackMap circuit={circuit} decorative weight={30} className="col-start-3 row-span-2 row-start-1 h-12 w-12 text-fg-4 transition-colors group-hover:text-fg md:col-start-auto md:row-span-1 md:row-start-auto md:h-14 md:w-14" />}
               </Link>
             </li>
           );
@@ -89,6 +89,7 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
   return (
     <>
       <PageHeader
+        size="lg"
         kicker={
           <>
             {t('calendar.round', { round: round.round })} · {f.longDate(round.date)}
@@ -98,28 +99,28 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
         title={name}
         lead={`${round.circuitName} · ${round.locality}`}
         aside={
-          <nav className="flex gap-px border border-line bg-line" aria-label={t('calendar.title')}>
+          <nav className="flex gap-px border border-line-strong bg-line-strong" aria-label={t('calendar.title')}>
             {[
               { to: prev, label: t('round.prev'), glyph: '←' },
               { to: next, label: t('round.next'), glyph: '→' },
             ].map(({ to, label, glyph }) =>
               to ? (
-                <Link key={label} to={`/calendar/${to.round}`} aria-label={`${label}: ${f.gp(to)}`} className="flex h-11 w-12 items-center justify-center bg-ink-900 text-xl hover:bg-ink-850 hover:text-signal">
+                <Link key={label} to={`/calendar/${to.round}`} aria-label={`${label}: ${f.gp(to)}`} className="flex h-11 w-12 items-center justify-center bg-ink-950 text-xl transition-colors hover:bg-fg hover:text-ink-950">
                   <span aria-hidden="true">{glyph}</span>
                 </Link>
               ) : (
-                <span key={label} className="flex h-11 w-12 items-center justify-center bg-ink-900 text-xl text-fg-4" aria-hidden="true">{glyph}</span>
+                <span key={label} className="flex h-11 w-12 items-center justify-center bg-ink-950 text-xl text-ink-700" aria-hidden="true">{glyph}</span>
               ),
             )}
           </nav>
         }
       />
 
-      <div className="grid gap-x-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)]">
+      <div className="grid gap-x-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)]">
         <div className="min-w-0">
           {result ? (
             <section className="mt-10">
-              <div role="tablist" aria-label={t('round.tabs')} className="flex gap-6 overflow-x-auto border-b border-line-strong">
+              <div role="tablist" aria-label={t('round.tabs')} className="flex gap-7 overflow-x-auto border-b border-line-strong">
                 {tabs.map((key) => (
                   <button
                     key={key}
@@ -129,7 +130,7 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
                     aria-selected={tab === key}
                     aria-controls="round-panel"
                     onClick={() => setTab(key)}
-                    className={`display relative min-h-12 cursor-pointer whitespace-nowrap text-xl tracking-wide transition-colors ${tab === key ? 'text-fg after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-signal' : 'text-fg-3 hover:text-fg'}`}
+                    className={`label relative min-h-12 cursor-pointer whitespace-nowrap text-[0.75rem] transition-colors ${tab === key ? 'text-fg after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-fg' : 'hover:text-fg'}`}
                   >
                     {t(`round.${key}`)}
                   </button>
@@ -140,7 +141,7 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
                 {tab === 'qualifying' && <QualifyingTable entries={result.qualifying} caption={`${name} — ${t('round.qualifying')}`} />}
                 {tab === 'sprint' && result.sprint && <RaceTable entries={result.sprint} caption={`${name} — ${t('round.sprint')}`} />}
                 {tab === 'standings' && (
-                  <div className="grid gap-x-10 gap-y-8 pt-4 xl:grid-cols-2">
+                  <div className="grid gap-x-12 gap-y-8 pt-4 xl:grid-cols-2">
                     <DriverStandingsTable rows={driverStandings(results.rounds, round.round)} caption={t('standings.drivers')} />
                     <ConstructorStandingsTable rows={constructorStandings(results.rounds, round.round, teams.map((x) => x.id))} caption={t('standings.constructors')} />
                   </div>
@@ -149,14 +150,14 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
             </section>
           ) : (
             <Section title={t('round.schedule')} note={t('round.notRun')}>
-              <ul className="border-t border-line-strong">
+              <ul>
                 {SESSION_ORDER.map((key) => {
                   const at = round.sessions[key];
                   if (!at) return null;
                   return (
                     <li key={key} className="row flex items-baseline justify-between gap-6 py-4">
-                      <span className="display text-2xl">{t(`session.${key}`)}</span>
-                      <span className="num text-fg-2">{f.sessionTime(at)}</span>
+                      <span className="cond text-2xl">{t(`session.${key}`)}</span>
+                      <span className="num text-sm text-fg-2">{f.sessionTime(at)}</span>
                     </li>
                   );
                 })}
@@ -168,7 +169,7 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
         {circuit && (
           <aside>
             <Section title={t('round.circuit')}>
-              <div className="panel p-4">
+              <div className="panel bracket p-4">
                 <TrackMap circuit={circuit} detailed className="h-auto w-full" />
               </div>
               <div className="mt-4">

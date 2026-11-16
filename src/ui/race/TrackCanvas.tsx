@@ -1,13 +1,20 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { CarSetup, TrackInput } from '../../engine/race/types.ts';
+import { SECTOR_COLORS } from '../components/TrackMap.tsx';
 import { readableOn } from '../format.ts';
 import { live, useRace } from './controller.ts';
 
 const PAD = 0.07;
-const SECTOR_COLORS = ['#e9584d', '#5aa9e6', '#ead35a'];
 /** Desplazamiento del pit lane hacia el interior, en unidades del trazado. */
 const PIT_OFFSET = 0.022;
+/** Colores del lienzo: los mismos tonos que los tokens de index.css, en hex para Canvas. */
+const INK = '#0f1115';
+const TRACK = '#2a2e37';
+const PIT = '#596072';
+const FLAG = '#f2d33c';
+const MONO = '"JetBrains Mono", ui-monospace, monospace';
+const COND = '"Archivo", "Arial Narrow", sans-serif';
 
 interface View {
   scale: number;
@@ -101,11 +108,11 @@ export function TrackCanvas({ circuit, cars }: { circuit: TrackInput; cars: CarS
       const zoom = view.current.scale;
       const base = Math.max(6, Math.min(width, height) * 0.018) * Math.sqrt(zoom);
 
-      strokeSpan(0, 1, '#3a3a48', base * 1.5);
+      strokeSpan(0, 1, TRACK, base * 1.5);
       const bounds = [0, circuit.sectors[0], circuit.sectors[1], 1];
       SECTOR_COLORS.forEach((color, i) => strokeSpan(bounds[i]!, bounds[i + 1]!, color, Math.max(1.5, base * 0.16)));
-      for (const [from, to] of circuit.overtakeZones) strokeSpan(from, to, 'rgba(96, 211, 148, 0.34)', base * 1.5);
-      strokeSpan(circuit.pit.entry, circuit.pit.exit, '#6b6b7b', Math.max(1.5, base * 0.3), PIT_OFFSET);
+      for (const [from, to] of circuit.overtakeZones) strokeSpan(from, to, 'rgba(86, 201, 138, 0.3)', base * 1.5);
+      strokeSpan(circuit.pit.entry, circuit.pit.exit, PIT, Math.max(1.5, base * 0.3), PIT_OFFSET);
 
       // Línea de meta
       const start = pointAt(track, 0);
@@ -144,10 +151,10 @@ export function TrackCanvas({ circuit, cars }: { circuit: TrackInput; cars: CarS
       if (snapshot.safetyCarS !== null) {
         const p = pointAt(track, snapshot.safetyCarS);
         const [sx, sy] = toScreen(p.x, p.y);
-        ctx.fillStyle = '#f5c400';
+        ctx.fillStyle = FLAG;
         ctx.fillRect(sx - radius, sy - radius * 0.7, radius * 2, radius * 1.4);
-        ctx.fillStyle = '#15151e';
-        ctx.font = `700 ${Math.round(radius * 0.95)}px Titillium Web, sans-serif`;
+        ctx.fillStyle = INK;
+        ctx.font = `700 ${Math.round(radius * 0.9)}px ${MONO}`;
         ctx.fillText('SC', sx, sy + 0.5);
       }
 
@@ -176,16 +183,25 @@ export function TrackCanvas({ circuit, cars }: { circuit: TrackInput; cars: CarS
         ctx.fillStyle = setup.color;
         ctx.fill();
         ctx.lineWidth = 1;
-        ctx.strokeStyle = '#15151e';
+        ctx.strokeStyle = INK;
         ctx.stroke();
 
         if (car.player || zoom > 1.6 || car.position === 1) {
-          ctx.font = `700 ${Math.round(r * 0.95)}px Titillium Web, sans-serif`;
+          ctx.font = `700 ${Math.round(r * 0.9)}px ${MONO}`;
           ctx.fillStyle = readableOn(setup.color);
           ctx.fillText(String(setup.number ?? ''), x, y + 0.5);
-          ctx.font = `700 ${Math.round(Math.max(10, r))}px Titillium Web, sans-serif`;
+          // Código del piloto en una placa oscura sobre el coche, para que se lea encima del trazado.
+          const size = Math.round(Math.max(11, r * 1.05));
+          ctx.font = `700 condensed ${size}px ${COND}`;
+          const plateW = ctx.measureText(setup.code).width + 8;
+          const plateH = size + 4;
+          const plateY = y - r - 6 - plateH;
+          ctx.fillStyle = INK;
+          ctx.fillRect(x - plateW / 2, plateY, plateW, plateH);
+          ctx.fillStyle = setup.color;
+          ctx.fillRect(x - plateW / 2, plateY + plateH - 2, plateW, 2);
           ctx.fillStyle = '#ffffff';
-          ctx.fillText(setup.code, x, y - r - 8);
+          ctx.fillText(setup.code, x, plateY + plateH / 2 - 0.5);
         }
       }
     };
@@ -255,7 +271,7 @@ export function TrackCanvas({ circuit, cars }: { circuit: TrackInput; cars: CarS
       <button
         type="button"
         onClick={() => (view.current = { scale: 1, x: 0, y: 0 })}
-        className="label absolute bottom-3 right-3 min-h-9 cursor-pointer border border-line-strong bg-ink-950/80 px-3 text-fg-2 hover:text-fg"
+        className="label absolute bottom-3 right-3 min-h-9 cursor-pointer border border-line-strong bg-ink-950/85 px-3 transition-colors hover:border-fg hover:text-fg"
       >
         {t('race.resetView')}
       </button>

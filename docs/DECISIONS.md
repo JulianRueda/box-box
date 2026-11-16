@@ -46,3 +46,15 @@ Las que sí lo cambian se consultan antes.
 | 27 | **`docs/CALIBRATION.md` lo genera `npm run calibrate`** (200 simulaciones × 20 GP, unos 25 minutos). En `npm test` va una versión corta: Monza y Sepang, 20 simulaciones | Acordado en el plan de la fase |
 | 28 | **El desgaste de siete circuitos se bajó** tras comparar con las paradas reales de OpenF1 (Shanghái, Suzuka, Miami, Madrid, Singapur, Austin y Spa) | Mi estimación inicial daba dos paradas donde en 2026 se fue a una |
 | 29 | **Quedan para la Fase 3**: sanciones por límites de pista y pit lane, bandera roja, vuelta de formación y mensajes de radio del jugador. Para la Fase 8: gráficas de diferencias vuelta a vuelta, sonidos y niveles de dificultad | Reparto del §12 |
+
+## Rediseño de la interfaz (rama `ui-rediseno`, 2026-11-16)
+
+Sustituye a las decisiones 14, 15 y 18. La decisión "oscuro, estilo transmisión" del diseño se mantiene.
+
+| # | Decisión | Motivo |
+|---|---|---|
+| 30 | **Dirección de arte "muro de boxes"**: grafito frío, datos en monoespaciada y titulares en grotesca expandida. Elegida por el jugador entre tres propuestas | La estética anterior se parecía demasiado a un clon de F1TV. La interfaz pasa a ser la estación de trabajo del director de equipo |
+| 31 | **Sin color de marca fijo.** El color lo ponen los equipos (`--team`) y el código de cronometraje morado/verde/amarillo, que también forma la marca del juego. El rojo queda solo para alertas | Deja de competir con los rojos de Ferrari y Audi, y cada ficha se tiñe de su equipo |
+| 32 | **Archivo (variable, eje de ancho 62–125 %) + JetBrains Mono** desde Google Fonts, en lugar de Titillium Web | Una sola familia hace de titular expandido, texto y rótulo condensado. En pantallas estrechas el titular baja a ancho normal para que quepa |
+| 33 | **`--team-ink`**: el color del equipo aclarado cuando se usa como texto | Los azules de Williams y Red Bull no llegan al contraste mínimo sobre el fondo oscuro |
+| 34 | **Las mayúsculas se quedan** en titulares y rótulos de instrumento | Son parte del lenguaje de monitor de tiempos; el texto corrido va en minúsculas |

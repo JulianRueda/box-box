@@ -26,21 +26,33 @@ export function useFormat() {
   }, [lang, t]);
 }
 
-/** Variables CSS con los colores del equipo, para que los hijos usen var(--team). */
-export function teamVars(team: Pick<Team, 'colors'> | undefined): CSSProperties {
-  if (!team) return {};
-  return { '--team': team.colors.primary, '--team-2': team.colors.secondary } as CSSProperties;
-}
-
-/** Color de texto legible (oscuro o claro) sobre un color de fondo hex. */
-export function readableOn(hex: string): string {
+/** Luminancia relativa (WCAG) de un color hex. */
+export function luminance(hex: string): number {
   const n = parseInt(hex.slice(1), 16);
   const channel = (v: number) => {
     const c = v / 255;
     return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
   };
-  const luminance = 0.2126 * channel((n >> 16) & 255) + 0.7152 * channel((n >> 8) & 255) + 0.0722 * channel(n & 255);
-  return luminance > 0.4 ? '#15151e' : '#ffffff';
+  return 0.2126 * channel((n >> 16) & 255) + 0.7152 * channel((n >> 8) & 255) + 0.0722 * channel(n & 255);
+}
+
+/**
+ * Color del equipo aclarado lo justo para leerse como texto sobre el fondo oscuro.
+ * Los azules de Williams o Red Bull, tal cual, no llegan al contraste mínimo.
+ */
+export function teamInk(hex: string): string {
+  return luminance(hex) < 0.24 ? `color-mix(in oklab, ${hex} 58%, white)` : hex;
+}
+
+/** Variables CSS con los colores del equipo, para que los hijos usen var(--team). */
+export function teamVars(team: Pick<Team, 'colors'> | undefined): CSSProperties {
+  if (!team) return {};
+  return { '--team': team.colors.primary, '--team-2': team.colors.secondary, '--team-ink': teamInk(team.colors.primary) } as CSSProperties;
+}
+
+/** Color de texto legible (oscuro o claro) sobre un color de fondo hex. */
+export function readableOn(hex: string): string {
+  return luminance(hex) > 0.4 ? '#0f1115' : '#ffffff';
 }
 
 /** Retraso escalonado para la animación .reveal de listas. */

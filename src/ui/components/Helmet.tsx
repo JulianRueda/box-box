@@ -35,7 +35,7 @@ export function Helmet({ driver, team, size = 96 }: { driver: Driver; team: Team
       </g>
       <path d="M50 37h36l2 13c0 2-1 4-4 4H56c-5 0-9-4-9-9 0-4 1-8 3-8z" fill="#0b0d12" />
       <path d="M53 40h30l1 5H52z" fill="#fff" opacity="0.14" />
-      <text x="30" y="61" textAnchor="middle" fontFamily="var(--font-display)" fontWeight="700" fontSize={String(label).length > 2 ? 14 : 19} fill={readableOn(primary)}>
+      <text x="30" y="61" textAnchor="middle" fontFamily="var(--font-mono)" fontWeight="700" fontSize={String(label).length > 2 ? 12 : 17} fill={readableOn(primary)}>
         {label}
       </text>
     </svg>
