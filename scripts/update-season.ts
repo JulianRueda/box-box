@@ -38,7 +38,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 async function get(path: string): Promise<Json> {
   const url = `${API}/${path}`;
   for (let attempt = 1; ; attempt++) {
-    const res = await fetch(url, { headers: { 'User-Agent': 'paddock-manager-update-season' } });
+    const res = await fetch(url, { headers: { 'User-Agent': 'box-box-update-season' } });
     if (res.status === 429 && attempt <= 5) {
       await sleep(1500 * attempt);
       continue;

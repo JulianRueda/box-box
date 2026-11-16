@@ -1,4 +1,4 @@
-# Paddock Manager 2026
+# Box Box
 
 Juego de gestión de Fórmula 1 en el navegador. Se construye por fases; van hechas la **Fase 1 — Base y datos** y la **Fase 2 — Carrera en vivo con mapa**.
 
