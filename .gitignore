@@ -13,3 +13,7 @@ public/assets/drivers/*
 !public/assets/drivers/README.md
 public/assets/helmets/*
 !public/assets/helmets/README.md
+
+# Documentos de trabajo privados: el plan de construcción y su seguimiento no se publican.
+CLAUDE.md
+PROGRESS.md

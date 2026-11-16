@@ -1,6 +1,6 @@
 # Decisiones de diseño menores
 
-Decisiones que el documento de diseño (`CLAUDE.md`) no cubría y que no cambian mucho el resultado.
+Decisiones que el documento de diseño no cubría y que no cambian mucho el resultado.
 Las que sí lo cambian se consultan antes.
 
 ## Fase 1
@@ -59,4 +59,4 @@ Sustituye a las decisiones 14, 15 y 18. La decisión "oscuro, estilo transmisió
 | 33 | **`--team-ink`**: el color del equipo aclarado cuando se usa como texto | Los azules de Williams y Red Bull no llegan al contraste mínimo sobre el fondo oscuro |
 | 34 | **Las mayúsculas se quedan** en titulares y rótulos de instrumento | Son parte del lenguaje de monitor de tiempos; el texto corrido va en minúsculas |
 | 35 | **Pulido tras la auditoría de unslop**: sin velo de color en las fichas (el color del equipo queda en la franja, la placa y el dorsal), espaciado en rejilla de 4 px, números sin cero delante, tres niveles de texto y una sola entrada animada por pantalla. El titular de Inicio pasa a «Dirige un equipo real de 2026 desde el muro» | El anterior valía para cualquier juego de gestión. Titulares en peso 800 y rótulos en mayúsculas se mantienen a propósito (decisión 34) |
-| 36 | **El juego se llama «Box Box»** (antes «Paddock Manager 2026»), elegido por el jugador. Cambia el título, pp.name en es/en, el README, el CLAUDE.md y el nombre del paquete; la carpeta del proyecto y el título del plan se quedan | La llamada de radio para entrar a boxes. Sin el año, porque el juego es multitemporada. No incluye marcas de la F1 ni de la FIA. Sin comprobar aún disponibilidad en tiendas, dominios ni registro de marcas |
+| 36 | **El juego se llama «Box Box»** (antes «Paddock Manager 2026»), elegido por el jugador. Cambia el título, `app.name` en es/en, el README y el nombre del paquete; la carpeta del proyecto se queda | La llamada de radio para entrar a boxes. Sin el año, porque el juego es multitemporada. No incluye marcas de la F1 ni de la FIA. Sin comprobar aún disponibilidad en tiendas, dominios ni registro de marcas |
