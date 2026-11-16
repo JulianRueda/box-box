@@ -1,11 +1,24 @@
 {
-  "app": { "name": "Paddock Manager", "season": "Temporada {{year}}", "skip": "Saltar al contenido" },
-  "nav": { "home": "Inicio", "teams": "Equipos", "drivers": "Pilotos", "calendar": "Calendario", "standings": "Clasificación", "language": "Idioma", "main": "Navegación principal" },
+  "app": {
+    "name": "Paddock Manager",
+    "season": "Temporada {{year}}",
+    "skip": "Saltar al contenido"
+  },
+  "nav": {
+    "home": "Inicio",
+    "teams": "Equipos",
+    "drivers": "Pilotos",
+    "calendar": "Calendario",
+    "standings": "Clasificación",
+    "language": "Idioma",
+    "main": "Navegación principal",
+    "settings": "Ajustes"
+  },
   "home": {
     "kicker": "Temporada 2026 · datos reales hasta la ronda {{round}}",
-    "title1": "Tu equipo.",
-    "title2": "Tus decisiones.",
-    "title3": "Tu campeonato.",
+    "title1": "Tu equipo",
+    "title2": "Tus decisiones",
+    "title3": "Tu campeonato",
     "lead": "Once equipos, veintidós pilotos y un reglamento nuevo. Recorre la temporada real antes de sentarte en el muro.",
     "leader": "Líder del mundial",
     "constructorsLeader": "Líder de constructores",
@@ -17,10 +30,22 @@
     "explore": "Explorar la temporada",
     "comingPhase": "Llega en la fase {{phase}}",
     "mode": {
-      "principal": { "title": "Team Principal", "text": "Dirige uno de los 11 equipos reales con su situación real." },
-      "create": { "title": "Crear equipo", "text": "Funda el 12.º equipo de la parrilla desde cero." },
-      "quick": { "title": "Partida rápida", "text": "Un Gran Premio suelto, con tus pilotos y tu estrategia." },
-      "career": { "title": "Multitemporada", "text": "2026, 2027 y lo que venga: retiros, fichajes y cambios de reglas." }
+      "principal": {
+        "title": "Team Principal",
+        "text": "Dirige uno de los 11 equipos reales con su situación real"
+      },
+      "create": {
+        "title": "Crear equipo",
+        "text": "Funda el 12.º equipo de la parrilla desde cero"
+      },
+      "quick": {
+        "title": "Partida rápida",
+        "text": "Un Gran Premio suelto, con tus pilotos y tu estrategia"
+      },
+      "career": {
+        "title": "Multitemporada",
+        "text": "2026, 2027 y lo que venga: retiros, fichajes y cambios de reglas"
+      }
     },
     "explorer": {
       "teams": "Los 11 equipos, sus coches y su gente",
@@ -29,7 +54,11 @@
       "standings": "El mundial tras cualquier ronda"
     }
   },
-  "teams": { "title": "Equipos", "lead": "Los once constructores de 2026, ordenados por el mundial.", "sortNote": "Clasificación tras la ronda {{round}}" },
+  "teams": {
+    "title": "Equipos",
+    "lead": "Los once constructores de 2026, ordenados por el mundial",
+    "sortNote": "Clasificación tras la ronda {{round}}"
+  },
   "team": {
     "principal": "Director",
     "powerUnit": "Motor",
@@ -45,7 +74,7 @@
     "season": "Su temporada",
     "seasonNote": "Posición final de cada coche en cada ronda. Un guion es un abandono.",
     "position": "Posición",
-    "noReserves": "Sin reservas anunciados."
+    "noReserves": "Sin reservas anunciados"
   },
   "car": {
     "downforceHigh": "Carga alta",
@@ -58,17 +87,28 @@
     "tyreWear": "Cuidado de neumáticos",
     "weight": "Peso"
   },
-  "drivers": { "title": "Pilotos", "lead": "Los 22 titulares y los reservas de cada equipo.", "race": "Titulares", "others": "Reservas y pilotos de pruebas", "all": "Todos", "filter": "Filtrar por rol" },
+  "drivers": {
+    "title": "Pilotos",
+    "lead": "Los 22 titulares y los reservas de cada equipo",
+    "race": "Titulares",
+    "others": "Reservas y pilotos de pruebas",
+    "all": "Todos",
+    "filter": "Filtrar por rol"
+  },
   "driver": {
     "age": "{{count}} años",
     "number": "Número",
     "nationality": "Nacionalidad",
     "team": "Equipo",
     "freeAgent": "Sin equipo",
-    "role": { "race": "Titular", "reserve": "Reserva", "test": "Pruebas" },
+    "role": {
+      "race": "Titular",
+      "reserve": "Reserva",
+      "test": "Pruebas"
+    },
     "overall": "Media",
     "attributes": "Atributos",
-    "attributesEstimated": "Atributos estimados: no ha corrido lo suficiente en 2026 para deducirlos de resultados.",
+    "attributesEstimated": "Atributos estimados: no ha corrido lo suficiente en 2026 para deducirlos de resultados",
     "contract": "Contrato",
     "contractEnd": "Hasta",
     "salary": "Salario anual",
@@ -82,7 +122,7 @@
     "championship": "Mundial",
     "starts": "Carreras antes de 2026",
     "engineer": "Ingeniero de pista",
-    "noRaces": "No ha corrido en 2026.",
+    "noRaces": "No ha corrido en 2026",
     "unverified": "Dato sin confirmar con una fuente fiable",
     "radar": "Gráfico de radar con los atributos de {{name}}"
   },
@@ -135,7 +175,7 @@
     "qualifying": "Clasificación",
     "sprint": "Sprint",
     "standings": "Mundial tras la ronda",
-    "notRun": "Esta ronda aún no se ha disputado.",
+    "notRun": "Esta ronda aún no se ha disputado",
     "schedule": "Horarios",
     "circuit": "El circuito",
     "length": "Longitud",
@@ -143,14 +183,18 @@
     "distance": "Distancia",
     "km": "{{value}} km",
     "downforce": "Carga aerodinámica",
-    "downforceLevel": { "low": "Baja", "medium": "Media", "high": "Alta" },
+    "downforceLevel": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta"
+    },
     "tyreWear": "Desgaste de neumáticos",
     "overtaking": "Dificultad para adelantar",
     "safetyCar": "Prob. de safety car",
     "rain": "Prob. de lluvia",
     "pitLoss": "Pérdida en boxes",
     "seconds": "{{value}} s",
-    "estimatedNote": "Los parámetros de juego del circuito son estimaciones y se calibrarán con la simulación.",
+    "estimatedNote": "Los parámetros de juego del circuito son estimaciones y se calibrarán con la simulación",
     "mapLabel": "Trazado de {{name}}",
     "legendStart": "Meta",
     "legendOvertake": "Zona de Overtake Mode",
@@ -158,7 +202,15 @@
     "prev": "Ronda anterior",
     "next": "Ronda siguiente"
   },
-  "session": { "fp1": "Libres 1", "fp2": "Libres 2", "fp3": "Libres 3", "sprintQualifying": "Clasificación sprint", "sprint": "Sprint", "qualifying": "Clasificación", "race": "Carrera" },
+  "session": {
+    "fp1": "Libres 1",
+    "fp2": "Libres 2",
+    "fp3": "Libres 3",
+    "sprintQualifying": "Clasificación sprint",
+    "sprint": "Sprint",
+    "qualifying": "Clasificación",
+    "race": "Carrera"
+  },
   "table": {
     "pos": "Pos",
     "driver": "Piloto",
@@ -176,7 +228,13 @@
     "pitLane": "Boxes",
     "noTime": "Sin tiempo"
   },
-  "status": { "Finished": "Terminó", "Lapped": "Doblado", "Retired": "Abandono", "Did not start": "No salió", "Disqualified": "Descalificado" },
+  "status": {
+    "Finished": "Terminó",
+    "Lapped": "Doblado",
+    "Retired": "Abandono",
+    "Did not start": "No salió",
+    "Disqualified": "Descalificado"
+  },
   "standings": {
     "title": "Clasificación",
     "lead": "Mueve el control para ver cómo iba el mundial tras cada ronda. Desde cualquiera de ellas podrás empezar tu partida.",
@@ -185,9 +243,19 @@
     "drivers": "Pilotos",
     "constructors": "Constructores",
     "slider": "Ronda del mundial",
-    "empty": "Aún no hay puntos."
+    "empty": "Aún no hay puntos"
   },
-  "common": { "estimated": "est.", "estimatedLong": "Estimación", "generated": "Generado", "generatedLong": "Persona inventada: el puesto real no es público", "back": "Volver", "notFound": "No encontrado", "notFoundText": "Esa página no existe en el paddock.", "goHome": "Ir al inicio", "viewAll": "Ver todo" },
+  "common": {
+    "estimated": "est.",
+    "estimatedLong": "Estimación",
+    "generated": "Generado",
+    "generatedLong": "Persona inventada: el puesto real no es público",
+    "back": "Volver",
+    "notFound": "No encontrado",
+    "notFoundText": "Esa página no existe en el paddock",
+    "goHome": "Ir al inicio",
+    "viewAll": "Ver todo"
+  },
   "gp": {
     "albert_park": "Gran Premio de Australia",
     "shanghai": "Gran Premio de China",
@@ -212,5 +280,25 @@
     "vegas": "Gran Premio de Las Vegas",
     "losail": "Gran Premio de Catar",
     "yas_marina": "Gran Premio de Abu Dabi"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "lead": "Pon tus propios logos, fotos y cascos. Se guardan solo en este navegador.",
+    "bulk": "Importar en bloque",
+    "bulkText": "Arrastra aquí tus imágenes o elígelas todas a la vez. Se asignan por el nombre del archivo: ferrari.png es un logo, antonelli.jpg o ANT.png una foto y antonelli-helmet.png un casco.",
+    "bulkButton": "Elegir archivos",
+    "imported_one": "{{count}} imagen importada.",
+    "imported_other": "{{count}} imágenes importadas.",
+    "skipped": "Sin asignar: {{files}}.",
+    "privacy": "El juego no incluye ni descarga logos, fotos ni cascos reales: son marcas y material de terceros. Las imágenes que pongas no salen de tu equipo.",
+    "logos": "Logos de equipo",
+    "drivers": "Fotos y cascos de pilotos",
+    "photo": "Foto",
+    "helmet": "Casco",
+    "upload": "Subir",
+    "change": "Cambiar",
+    "remove": "Quitar",
+    "badFile": "Usa una imagen de 3 MB como máximo",
+    "fileName": "Nombre de archivo esperado"
   }
 }

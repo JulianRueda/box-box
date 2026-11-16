@@ -16,6 +16,7 @@
     "build-ratings": "tsx scripts/build-ratings.ts"
   },
   "dependencies": {
+    "dexie": "^4.4.7",
     "i18next": "^27.1.2",
     "immer": "^11.2.10",
     "react": "^19.3.1",

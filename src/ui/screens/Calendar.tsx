@@ -44,7 +44,7 @@ export function Calendar() {
                 </span>
                 <span className="col-start-2 mt-1 min-w-0 md:col-start-auto md:mt-0">
                   {winnerDriver ? (
-                    <span className="flex items-center gap-2.5">
+                    <span className="flex items-center gap-2">
                       <span className="h-5 w-1 shrink-0 bg-(--team)" aria-hidden="true" />
                       <span className="truncate text-fg-2">{driverName(winnerDriver)}</span>
                     </span>
@@ -153,7 +153,7 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
                   const at = round.sessions[key];
                   if (!at) return null;
                   return (
-                    <li key={key} className="row flex items-baseline justify-between gap-6 py-3.5">
+                    <li key={key} className="row flex items-baseline justify-between gap-6 py-4">
                       <span className="display text-2xl">{t(`session.${key}`)}</span>
                       <span className="num text-fg-2">{f.sessionTime(at)}</span>
                     </li>

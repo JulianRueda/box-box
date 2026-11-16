@@ -7,7 +7,7 @@ import { teamVars } from '../format.ts';
 import { DriverCell, TeamCell } from './bits.tsx';
 import { TeamLogo } from './TeamLogo.tsx';
 
-const th = 'label py-2.5 font-semibold';
+const th = 'label py-3 font-semibold';
 const isClassified = (e: RaceEntry) => /^\d+$/.test(e.positionText);
 
 function Pos({ value }: { value: string | number }) {
@@ -170,7 +170,7 @@ export function ConstructorStandingsTable({ rows, caption }: { rows: StandingRow
 function PointsBar({ share, teamId }: { share: number; teamId: string }) {
   return (
     <div className="-mt-1 mb-1.5 h-0.5 bg-ink-800" style={teamVars(findTeam(teamId))} aria-hidden="true">
-      <div className="h-full bg-(--team) transition-[width] duration-500 ease-out-quart" style={{ width: `${share * 100}%` }} />
+      <div className="h-full origin-left bg-(--team) transition-transform duration-500 ease-out-quart" style={{ transform: `scaleX(${share})` }} />
     </div>
   );
 }

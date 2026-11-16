@@ -40,7 +40,7 @@ export function readableOn(hex: string): string {
     return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
   };
   const luminance = 0.2126 * channel((n >> 16) & 255) + 0.7152 * channel((n >> 8) & 255) + 0.0722 * channel(n & 255);
-  return luminance > 0.4 ? '#0d0f14' : '#f5f6f8';
+  return luminance > 0.4 ? '#15151e' : '#ffffff';
 }
 
 /** Retraso escalonado para la animación .reveal de listas. */

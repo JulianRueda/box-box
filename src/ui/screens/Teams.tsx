@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import {
-  calendar, carOverall, driverName, driverOverall, findDriver, findTeam, raceDrivers, reserveDrivers, results, teams, teamStaff,
+  calendar, carOverall, driverName, findDriver, findTeam, raceDrivers, reserveDrivers, results, teams, teamStaff,
 } from '../../data/index.ts';
-import type { CarRatings, Driver, StaffRole, Team } from '../../data/schemas.ts';
+import type { CarRatings, StaffRole, Team } from '../../data/schemas.ts';
 import { constructorStandings } from '../../engine/season/standings.ts';
 import { EstTag, PageHeader, RatingBar, Section, Stat } from '../components/bits.tsx';
-import { Helmet } from '../components/Helmet.tsx';
+import { DriverCard } from '../components/DriverPortrait.tsx';
 import { TeamLogo } from '../components/TeamLogo.tsx';
 import { stagger, teamVars, useFormat } from '../format.ts';
 import { NotFound } from './NotFound.tsx';
@@ -31,7 +31,7 @@ export function Teams() {
           return (
             <li key={team.id} className="reveal bg-ink-950" style={{ ...teamVars(team), ...stagger(i) }}>
               <Link to={`/teams/${team.id}`} className="group relative flex h-full flex-col gap-6 overflow-hidden bg-ink-900 p-5 transition-colors hover:bg-ink-850 md:p-6">
-                <span className="absolute inset-y-0 left-0 w-1 bg-(--team) transition-[width] duration-300 ease-out-quart group-hover:w-2" aria-hidden="true" />
+                <span className="absolute inset-y-0 left-0 w-1 bg-(--team)" aria-hidden="true" />
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <p className="num text-sm text-fg-3">P{row.position}</p>
@@ -43,7 +43,7 @@ export function Teams() {
                 <div className="mt-auto flex items-end justify-between gap-4">
                   <ul className="text-[0.9375rem] text-fg-2">
                     {raceDrivers(team.id).map((d) => (
-                      <li key={d.id} className="flex items-baseline gap-2.5">
+                      <li key={d.id} className="flex items-baseline gap-2">
                         <span className="num w-6 text-right text-xs text-fg-4">{d.number}</span>
                         {driverName(d)}
                       </li>
@@ -60,23 +60,6 @@ export function Teams() {
         })}
       </ul>
     </>
-  );
-}
-
-function DriverCard({ driver, team }: { driver: Driver; team: Team }) {
-  const { t } = useTranslation();
-  return (
-    <Link to={`/drivers/${driver.id}`} className="group flex items-center gap-4 bg-ink-900 p-4 transition-colors hover:bg-ink-850">
-      <Helmet driver={driver} team={team} size={64} />
-      <div className="min-w-0 flex-1">
-        <p className="display truncate text-2xl group-hover:text-signal">{driverName(driver)}</p>
-        <p className="text-sm text-fg-3">{t(`driver.role.${driver.role}`)}</p>
-      </div>
-      <p className="text-right">
-        <span className="num block text-2xl font-semibold leading-none">{driverOverall(driver)}</span>
-        <span className="label text-[0.6875rem]">{t('driver.overall')}</span>
-      </p>
-    </Link>
   );
 }
 
@@ -137,13 +120,13 @@ export function TeamDetail() {
 
         <div>
           <Section title={t('team.drivers')}>
-            <div className="grid gap-px border border-line bg-line">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               {raceDrivers(team.id).map((d) => <DriverCard key={d.id} driver={d} team={team} />)}
             </div>
           </Section>
           <Section title={t('team.reserves')}>
             {reserves.length ? (
-              <div className="grid gap-px border border-line bg-line">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {reserves.map((d) => <DriverCard key={d.id} driver={d} team={team} />)}
               </div>
             ) : (

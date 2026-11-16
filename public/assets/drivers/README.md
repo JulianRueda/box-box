@@ -1,4 +1,6 @@
-# Fotos de pilotos (opcional)
+# Fotos de pilotos
 
-Por defecto cada piloto se muestra con un casco generado por código. El soporte para fotos propias
-llegará con la pantalla de Ajustes (Fase 8); esta carpeta queda reservada y fuera de git.
+El juego no incluye fotos reales. Si quieres usarlas, súbelas desde **Ajustes** o copia aquí un archivo por piloto:
+`<id>.png` o `<id>.jpg` (por ejemplo `antonelli.png`, `max_verstappen.jpg`). El id de cada piloto aparece en Ajustes.
+
+Recomendado: retrato vertical, fondo transparente, 400 px de alto o más. Esta carpeta está fuera de git.

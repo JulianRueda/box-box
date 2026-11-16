@@ -1,11 +1,24 @@
 {
-  "app": { "name": "Paddock Manager", "season": "{{year}} season", "skip": "Skip to content" },
-  "nav": { "home": "Home", "teams": "Teams", "drivers": "Drivers", "calendar": "Calendar", "standings": "Standings", "language": "Language", "main": "Main navigation" },
+  "app": {
+    "name": "Paddock Manager",
+    "season": "{{year}} season",
+    "skip": "Skip to content"
+  },
+  "nav": {
+    "home": "Home",
+    "teams": "Teams",
+    "drivers": "Drivers",
+    "calendar": "Calendar",
+    "standings": "Standings",
+    "language": "Language",
+    "main": "Main navigation",
+    "settings": "Settings"
+  },
   "home": {
     "kicker": "2026 season · real data up to round {{round}}",
-    "title1": "Your team.",
-    "title2": "Your calls.",
-    "title3": "Your title.",
+    "title1": "Your team",
+    "title2": "Your calls",
+    "title3": "Your title",
     "lead": "Eleven teams, twenty-two drivers and a brand-new rulebook. Walk through the real season before you take your seat on the pit wall.",
     "leader": "Championship leader",
     "constructorsLeader": "Constructors' leader",
@@ -17,10 +30,22 @@
     "explore": "Explore the season",
     "comingPhase": "Arrives in phase {{phase}}",
     "mode": {
-      "principal": { "title": "Team Principal", "text": "Run one of the 11 real teams, exactly as they stand." },
-      "create": { "title": "Create a team", "text": "Found the 12th team on the grid from scratch." },
-      "quick": { "title": "Quick race", "text": "A single Grand Prix with your drivers and your strategy." },
-      "career": { "title": "Multi-season", "text": "2026, 2027 and beyond: retirements, signings and rule changes." }
+      "principal": {
+        "title": "Team Principal",
+        "text": "Run one of the 11 real teams, exactly as they stand"
+      },
+      "create": {
+        "title": "Create a team",
+        "text": "Found the 12th team on the grid from scratch"
+      },
+      "quick": {
+        "title": "Quick race",
+        "text": "A single Grand Prix with your drivers and your strategy"
+      },
+      "career": {
+        "title": "Multi-season",
+        "text": "2026, 2027 and beyond: retirements, signings and rule changes"
+      }
     },
     "explorer": {
       "teams": "All 11 teams, their cars and their people",
@@ -29,7 +54,11 @@
       "standings": "The championship after any round"
     }
   },
-  "teams": { "title": "Teams", "lead": "The eleven 2026 constructors, in championship order.", "sortNote": "Standings after round {{round}}" },
+  "teams": {
+    "title": "Teams",
+    "lead": "The eleven 2026 constructors, in championship order",
+    "sortNote": "Standings after round {{round}}"
+  },
   "team": {
     "principal": "Principal",
     "powerUnit": "Power unit",
@@ -45,7 +74,7 @@
     "season": "Their season",
     "seasonNote": "Finishing position of each car in every round. A dash is a retirement.",
     "position": "Position",
-    "noReserves": "No reserves announced."
+    "noReserves": "No reserves announced"
   },
   "car": {
     "downforceHigh": "High downforce",
@@ -58,17 +87,28 @@
     "tyreWear": "Tyre care",
     "weight": "Weight"
   },
-  "drivers": { "title": "Drivers", "lead": "The 22 race drivers and every team's reserves.", "race": "Race drivers", "others": "Reserve and test drivers", "all": "All", "filter": "Filter by role" },
+  "drivers": {
+    "title": "Drivers",
+    "lead": "The 22 race drivers and every team's reserves",
+    "race": "Race drivers",
+    "others": "Reserve and test drivers",
+    "all": "All",
+    "filter": "Filter by role"
+  },
   "driver": {
     "age": "{{count}} years old",
     "number": "Number",
     "nationality": "Nationality",
     "team": "Team",
     "freeAgent": "Free agent",
-    "role": { "race": "Race driver", "reserve": "Reserve", "test": "Test driver" },
+    "role": {
+      "race": "Race driver",
+      "reserve": "Reserve",
+      "test": "Test driver"
+    },
     "overall": "Overall",
     "attributes": "Attributes",
-    "attributesEstimated": "Estimated attributes: not enough 2026 races to derive them from results.",
+    "attributesEstimated": "Estimated attributes: not enough 2026 races to derive them from results",
     "contract": "Contract",
     "contractEnd": "Until",
     "salary": "Annual salary",
@@ -82,7 +122,7 @@
     "championship": "Championship",
     "starts": "Races before 2026",
     "engineer": "Race engineer",
-    "noRaces": "Has not raced in 2026.",
+    "noRaces": "Has not raced in 2026",
     "unverified": "Not confirmed by a reliable source",
     "radar": "Radar chart of {{name}}'s attributes"
   },
@@ -135,7 +175,7 @@
     "qualifying": "Qualifying",
     "sprint": "Sprint",
     "standings": "Championship after the round",
-    "notRun": "This round has not been run yet.",
+    "notRun": "This round has not been run yet",
     "schedule": "Schedule",
     "circuit": "The circuit",
     "length": "Length",
@@ -143,14 +183,18 @@
     "distance": "Distance",
     "km": "{{value}} km",
     "downforce": "Downforce",
-    "downforceLevel": { "low": "Low", "medium": "Medium", "high": "High" },
+    "downforceLevel": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
     "tyreWear": "Tyre wear",
     "overtaking": "Overtaking difficulty",
     "safetyCar": "Safety car chance",
     "rain": "Chance of rain",
     "pitLoss": "Pit lane time loss",
     "seconds": "{{value}} s",
-    "estimatedNote": "The circuit's game parameters are estimates and will be calibrated against the simulation.",
+    "estimatedNote": "The circuit's game parameters are estimates and will be calibrated against the simulation",
     "mapLabel": "Track layout of {{name}}",
     "legendStart": "Finish line",
     "legendOvertake": "Overtake Mode zone",
@@ -158,7 +202,15 @@
     "prev": "Previous round",
     "next": "Next round"
   },
-  "session": { "fp1": "Practice 1", "fp2": "Practice 2", "fp3": "Practice 3", "sprintQualifying": "Sprint qualifying", "sprint": "Sprint", "qualifying": "Qualifying", "race": "Race" },
+  "session": {
+    "fp1": "Practice 1",
+    "fp2": "Practice 2",
+    "fp3": "Practice 3",
+    "sprintQualifying": "Sprint qualifying",
+    "sprint": "Sprint",
+    "qualifying": "Qualifying",
+    "race": "Race"
+  },
   "table": {
     "pos": "Pos",
     "driver": "Driver",
@@ -176,7 +228,13 @@
     "pitLane": "Pit lane",
     "noTime": "No time"
   },
-  "status": { "Finished": "Finished", "Lapped": "Lapped", "Retired": "Retired", "Did not start": "Did not start", "Disqualified": "Disqualified" },
+  "status": {
+    "Finished": "Finished",
+    "Lapped": "Lapped",
+    "Retired": "Retired",
+    "Did not start": "Did not start",
+    "Disqualified": "Disqualified"
+  },
   "standings": {
     "title": "Standings",
     "lead": "Drag the control to see how the championship stood after each round. You will be able to start your game from any of them.",
@@ -185,9 +243,19 @@
     "drivers": "Drivers",
     "constructors": "Constructors",
     "slider": "Championship round",
-    "empty": "No points yet."
+    "empty": "No points yet"
   },
-  "common": { "estimated": "est.", "estimatedLong": "Estimate", "generated": "Generated", "generatedLong": "Invented person: the real post holder is not public", "back": "Back", "notFound": "Not found", "notFoundText": "That page does not exist in the paddock.", "goHome": "Go home", "viewAll": "View all" },
+  "common": {
+    "estimated": "est.",
+    "estimatedLong": "Estimate",
+    "generated": "Generated",
+    "generatedLong": "Invented person: the real post holder is not public",
+    "back": "Back",
+    "notFound": "Not found",
+    "notFoundText": "That page does not exist in the paddock",
+    "goHome": "Go home",
+    "viewAll": "View all"
+  },
   "gp": {
     "albert_park": "Australian Grand Prix",
     "shanghai": "Chinese Grand Prix",
@@ -212,5 +280,25 @@
     "vegas": "Las Vegas Grand Prix",
     "losail": "Qatar Grand Prix",
     "yas_marina": "Abu Dhabi Grand Prix"
+  },
+  "settings": {
+    "title": "Settings",
+    "lead": "Add your own logos, photos and helmets. They are stored in this browser only.",
+    "bulk": "Bulk import",
+    "bulkText": "Drop your images here or pick them all at once. They are matched by file name: ferrari.png is a logo, antonelli.jpg or ANT.png a photo and antonelli-helmet.png a helmet.",
+    "bulkButton": "Choose files",
+    "imported_one": "{{count}} image imported.",
+    "imported_other": "{{count}} images imported.",
+    "skipped": "Not matched: {{files}}.",
+    "privacy": "The game does not ship or download real logos, photos or helmets: they are third-party trademarks and material. The images you add never leave your computer.",
+    "logos": "Team logos",
+    "drivers": "Driver photos and helmets",
+    "photo": "Photo",
+    "helmet": "Helmet",
+    "upload": "Upload",
+    "change": "Change",
+    "remove": "Remove",
+    "badFile": "Use an image of 3 MB at most",
+    "fileName": "Expected file name"
   }
 }

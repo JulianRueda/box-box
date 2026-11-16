@@ -11,3 +11,5 @@ public/assets/logos/*
 !public/assets/logos/README.md
 public/assets/drivers/*
 !public/assets/drivers/README.md
+public/assets/helmets/*
+!public/assets/helmets/README.md

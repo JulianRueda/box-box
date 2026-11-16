@@ -20,4 +20,4 @@ Un archivo por equipo, en **SVG** (preferido) o **PNG** con fondo transparente, 
 | Cadillac | `cadillac.svg` o `cadillac.png` |
 
 Si falta el archivo de un equipo se muestra un escudo genérico con sus colores y sus siglas.
-La pantalla de Ajustes para subirlos desde el juego llega en la Fase 8.
+También puedes subirlos desde la pantalla **Ajustes** del juego, uno a uno o todos a la vez.

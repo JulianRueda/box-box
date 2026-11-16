@@ -43,7 +43,7 @@ export function Home() {
       <section className="grid gap-x-12 gap-y-10 pb-4 pt-10 md:pt-16 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-end">
         <div className="reveal min-w-0">
           <p className="label mb-5 text-signal">{t('home.kicker', { round: last })}</p>
-          <h1 className="display text-[clamp(3rem,7.4vw,7.75rem)]">
+          <h1 className="display text-[clamp(2.5rem,5.4vw,5.5rem)] font-black">
             {t('home.title1')}
             <br />
             {t('home.title2')}
@@ -114,7 +114,7 @@ export function Home() {
             {EXPLORE.map((item, i) => (
               <li key={item.to} className="reveal" style={stagger(i + 2)}>
                 <Link to={item.to} className="row row-link group flex items-baseline justify-between gap-6 py-5">
-                  <span className="display text-4xl transition-transform duration-300 ease-out-quart group-hover:translate-x-2 group-hover:text-signal md:text-5xl">{t(item.nav)}</span>
+                  <span className="display text-4xl transition-transform duration-300 ease-out-quart group-hover:translate-x-1 group-hover:text-signal md:text-5xl">{t(item.nav)}</span>
                   <span className="max-w-[24ch] text-right text-sm text-fg-3">{t(item.text, { count: calendar.rounds.length })}</span>
                 </Link>
               </li>

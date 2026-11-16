@@ -1,30 +1,16 @@
-import { useState } from 'react';
 import type { Team } from '../../data/schemas.ts';
+import { useAsset } from '../assets.ts';
 import { readableOn } from '../format.ts';
 
 /**
  * Logo del equipo. Los logos reales son marcas registradas y no van en el repo:
- * el jugador los deja en public/assets/logos/<id>.svg o .png. Si no existe el
- * archivo se dibuja un escudo genérico con los colores y las siglas del equipo.
+ * el jugador los sube en Ajustes o los deja en public/assets/logos/<id>.svg|png.
+ * Si no hay ninguno se dibuja un escudo genérico con los colores y las siglas.
  */
-const SOURCES = ['svg', 'png'] as const;
-
 export function TeamLogo({ team, size = 40 }: { team: Team; size?: number }) {
-  const [attempt, setAttempt] = useState(0);
-  const ext = SOURCES[attempt];
-
-  if (ext) {
-    return (
-      <img
-        src={`${import.meta.env.BASE_URL}assets/logos/${team.id}.${ext}`}
-        alt=""
-        width={size}
-        height={size}
-        className="shrink-0 object-contain"
-        style={{ width: size, height: size }}
-        onError={() => setAttempt((a) => a + 1)}
-      />
-    );
+  const url = useAsset('logo', team.id);
+  if (url) {
+    return <img src={url} alt="" width={size} height={size} className="shrink-0 object-contain" style={{ width: size, height: size }} />;
   }
   return <TeamShield team={team} size={size} />;
 }
@@ -40,8 +26,8 @@ export function TeamShield({ team, size = 40 }: { team: Team; size?: number }) {
         y="25"
         textAnchor="middle"
         fontFamily="var(--font-display)"
-        fontWeight="800"
-        fontSize={team.shortName.length > 2 ? 12 : 15}
+        fontWeight="700"
+        fontSize={team.shortName.length > 2 ? 11 : 14}
         fill={readableOn(primary)}
       >
         {team.shortName}

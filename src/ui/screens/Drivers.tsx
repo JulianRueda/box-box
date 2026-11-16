@@ -6,7 +6,9 @@ import {
 import type { Driver, DriverAttributes } from '../../data/schemas.ts';
 import { driverStandings } from '../../engine/season/standings.ts';
 import { EstTag, PageHeader, RatingBar, Section, Stat } from '../components/bits.tsx';
+import { DriverCard, DriverPortrait } from '../components/DriverPortrait.tsx';
 import { Helmet } from '../components/Helmet.tsx';
+import { TeamLogo } from '../components/TeamLogo.tsx';
 import { Radar } from '../components/Radar.tsx';
 import { stagger, teamVars, useFormat } from '../format.ts';
 import { useUi, type RoleFilter } from '../store.ts';
@@ -50,40 +52,13 @@ export function Drivers() {
           </div>
         }
       />
-      <ul className="mt-8 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+      <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {list.map((d, i) => {
           const team = d.teamId ? findTeam(d.teamId) : undefined;
           const row = rank.get(d.id);
           return (
-            <li key={d.id} className="reveal bg-ink-950" style={{ ...teamVars(team), ...stagger(Math.min(i, 14)) }}>
-              <Link to={`/drivers/${d.id}`} className="group relative flex h-full items-center gap-4 overflow-hidden bg-ink-900 p-4 transition-colors hover:bg-ink-850">
-                <span className="display pointer-events-none absolute -right-1 -top-3 text-[5.5rem] leading-none text-fg opacity-[0.045]" aria-hidden="true">
-                  {d.number ?? d.code}
-                </span>
-                <Helmet driver={d} team={team} size={68} />
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm leading-tight text-fg-3">{d.givenName}</p>
-                  <p className="display truncate text-[1.75rem] group-hover:text-signal">{d.familyName}</p>
-                  <p className="mt-1 flex items-center gap-2 text-sm text-fg-3">
-                    <span className="h-3 w-0.5 bg-(--team)" aria-hidden="true" />
-                    <span className="truncate">{team?.name ?? t('driver.freeAgent')}</span>
-                    {d.role !== 'race' && <span className="label text-[0.6875rem]">· {t(`driver.role.${d.role}`)}</span>}
-                  </p>
-                </div>
-                <div className="text-right">
-                  {row ? (
-                    <>
-                      <span className="num block text-2xl font-semibold leading-none">{row.points}</span>
-                      <span className="label text-[0.6875rem]">{t('table.points')}</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="num block text-2xl font-semibold leading-none text-fg-3">{driverOverall(d)}</span>
-                      <span className="label text-[0.6875rem]">{t('driver.overall')}</span>
-                    </>
-                  )}
-                </div>
-              </Link>
+            <li key={d.id} className="reveal" style={stagger(Math.min(i, 14))}>
+              <DriverCard driver={d} team={team} meta={row ? { value: row.points, label: t('table.points') } : undefined} />
             </li>
           );
         })}
@@ -112,7 +87,13 @@ export function DriverDetail() {
         <span className="display pointer-events-none absolute -top-6 right-0 text-[clamp(10rem,30vw,22rem)] leading-none text-(--team) opacity-[0.09]" aria-hidden="true">
           {driver.number ?? driver.code}
         </span>
-        <Helmet driver={driver} team={team} size={148} />
+        <div className="relative flex items-end gap-4">
+          <DriverPortrait driver={driver} team={team} className="h-44 w-36 md:h-56 md:w-44" />
+          <div className="flex flex-col items-center gap-3 pb-2">
+            <Helmet driver={driver} team={team} size={72} />
+            {team && <TeamLogo team={team} size={44} />}
+          </div>
+        </div>
         <div className="relative min-w-0">
           <p className="label mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="border border-line-strong px-1.5 py-px text-fg-2">{driver.countryCode}</span>
@@ -120,7 +101,7 @@ export function DriverDetail() {
             <span aria-hidden="true">·</span>
             <span className="text-(--team)">{t(`driver.role.${driver.role}`)}{flag('role')}</span>
           </p>
-          <h1 className="display text-[clamp(2.5rem,7vw,5.75rem)]">
+          <h1 className="display text-[clamp(2.25rem,5.4vw,4.5rem)]">
             <span className="block text-[0.5em] font-medium text-fg-2">{driver.givenName}</span>
             {driver.familyName}
           </h1>

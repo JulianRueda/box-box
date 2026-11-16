@@ -4,6 +4,7 @@ import { Calendar, RoundDetail } from './ui/screens/Calendar.tsx';
 import { DriverDetail, Drivers } from './ui/screens/Drivers.tsx';
 import { Home } from './ui/screens/Home.tsx';
 import { NotFound } from './ui/screens/NotFound.tsx';
+import { Settings } from './ui/screens/Settings.tsx';
 import { Standings } from './ui/screens/Standings.tsx';
 import { TeamDetail, Teams } from './ui/screens/Teams.tsx';
 
@@ -24,6 +25,7 @@ export function App() {
           <Route path="calendar" element={<Calendar />} />
           <Route path="calendar/:round" element={<RoundDetail />} />
           <Route path="standings" element={<Standings />} />
+          <Route path="settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

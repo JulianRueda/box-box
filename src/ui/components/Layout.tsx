@@ -23,7 +23,7 @@ function LanguageSwitch() {
             type="button"
             aria-pressed={active}
             onClick={() => void i18n.changeLanguage(lng)}
-            className={`label min-h-9 min-w-10 cursor-pointer px-2.5 transition-colors ${active ? 'bg-fg text-ink-950' : 'text-fg-3 hover:text-fg'}`}
+            className={`label min-h-9 min-w-10 cursor-pointer px-3 transition-colors ${active ? 'bg-fg text-ink-950' : 'text-fg-3 hover:text-fg'}`}
           >
             {lng}
           </button>
@@ -42,7 +42,7 @@ export function Layout() {
   }, [pathname]);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `display relative flex items-center px-1 text-lg tracking-wide transition-colors ${isActive ? 'text-fg after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-signal' : 'text-fg-3 hover:text-fg'}`;
+    `display relative flex items-center px-1 text-[0.9375rem] transition-colors ${isActive ? 'text-fg after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:bg-signal' : 'text-fg-3 hover:text-fg'}`;
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -54,7 +54,7 @@ export function Layout() {
         <div className="mx-auto flex h-14 max-w-[90rem] items-stretch justify-between gap-6 px-4 md:px-8">
           <Link to="/" className="flex items-center gap-3">
             <span className="h-5 w-1.5 -skew-x-12 bg-signal" aria-hidden="true" />
-            <span className="display text-xl tracking-wide">{t('app.name')}</span>
+            <span className="display text-lg">{t('app.name')}</span>
             <span className="num hidden text-xs text-fg-3 sm:inline">{SEASON}</span>
           </Link>
           <nav aria-label={t('nav.main')} className="hidden items-stretch gap-7 md:flex">
@@ -64,7 +64,10 @@ export function Layout() {
               </NavLink>
             ))}
           </nav>
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
+            <NavLink to="/settings" className={({ isActive }) => `label hover:text-fg ${isActive ? 'text-fg' : ''}`}>
+              {t('nav.settings')}
+            </NavLink>
             <LanguageSwitch />
           </div>
         </div>
@@ -80,7 +83,7 @@ export function Layout() {
           <NavLink
             key={item.to}
             to={item.to}
-            className={({ isActive }) => `display flex h-14 items-center justify-center text-[0.9375rem] ${isActive ? 'text-fg shadow-[inset_0_2px_0_var(--color-signal)]' : 'text-fg-3'}`}
+            className={({ isActive }) => `display flex h-14 items-center justify-center text-[0.8125rem] ${isActive ? 'text-fg shadow-[inset_0_2px_0_var(--color-signal)]' : 'text-fg-3'}`}
           >
             {t(item.key)}
           </NavLink>
