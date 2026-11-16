@@ -21,3 +21,28 @@ Las que sí lo cambian se consultan antes.
 | 12 | **Sin Dexie, worker ni Canvas todavía** | Se instalan en la fase que los usa (2 y 4) |
 | 13 | **Zonas de Overtake Mode = rectas más largas detectadas por geometría** | No hay lista pública consolidada; se sustituye por datos reales si aparecen |
 | 14 | **Tipografías Saira / Saira Condensed / JetBrains Mono** desde Google Fonts, con pila de respaldo local | Aire de rótulo de TV sin usar fuentes propietarias; el juego funciona sin red con las de respaldo |
+
+## Estética e imágenes (entre la Fase 1 y la 2)
+
+| # | Decisión | Motivo |
+|---|---|---|
+| 15 | **Titillium Web** sustituye a Saira; fondo carbón y rojo como único acento | Petición de acercar el aspecto al de las retransmisiones. No se usan la tipografía propietaria ni el logo de la F1 |
+| 16 | **El juego sigue sin incluir logos, fotos ni cascos reales.** Se añadió ya la pantalla de Ajustes (prevista para la Fase 8) para subirlos, con importación en bloque por nombre de archivo | Son marcas y material con derechos de terceros (§11 del diseño). Sin imagen se dibuja un escudo, un busto anónimo y un casco genéricos |
+| 17 | **Dexie** se instala ahora, para las imágenes del jugador | La pantalla de Ajustes las guarda en IndexedDB |
+| 18 | **Se mantienen los rótulos en mayúsculas** aunque la pasada de limpieza los desaconseja | Son parte del aire de retransmisión que se pidió |
+
+## Fase 2
+
+| # | Decisión | Motivo |
+|---|---|---|
+| 19 | **El tiempo por vuelta no sale de la física del trazado.** La curvatura solo reparte el tiempo a lo largo de la vuelta; el total lo fija la vuelta rápida real de cada carrera de 2026 | El trazado público es demasiado tosco para deducir tiempos fiables. Así el mapa es creíble y el ritmo es real |
+| 20 | **Paso de 0,2 s en vivo y de 1 s en calibración y tests** | A 0,2 s el mapa va fluido; a 1 s una carrera tarda una décima de segundo en simularse. El resultado depende del paso, así que cada modo usa siempre el mismo |
+| 21 | **El tráfico se resuelve entre vecinos en el orden de carrera**, no entre vecinos físicos, salvo con safety car | Un doblado no bloquea al líder (banderas azules implícitas) y el código es mucho más simple. Con safety car sí se ordena por posición física |
+| 22 | **Un valor de desgaste por juego de neumáticos**; las cuatro ruedas del panel se derivan con un sesgo fijo por eje | El desgaste por rueda no cambia ninguna decisión del jugador todavía |
+| 23 | **La aerodinámica activa no es una orden del jugador** | En 2026 es automática y la usan todos; va incluida en el perfil de velocidad |
+| 24 | **No usar dos compuestos en seco cuesta 30 s**, en vez de la descalificación real | Un error de estrategia no debería borrar la carrera entera del jugador |
+| 25 | **Estrategia automática por coche** (apagada por defecto) | Llevar dos coches a x16 sin ayuda es difícil; con ella, el ingeniero decide las paradas como haría la IA |
+| 26 | **Los archivos del motor se agruparon**: `pace`, `energy`, `overtaking`, `incidents`, `flags`, `pit` y `start` viven en `sim.ts`; `tyres`, `weather`, `strategy` y `track` van aparte | Los sistemas del bucle principal comparten tanto estado que separarlos solo añadía indirección. Los que son funciones puras sí están separados y tienen sus tests |
+| 27 | **`docs/CALIBRATION.md` lo genera `npm run calibrate`** (200 simulaciones × 20 GP, unos 25 minutos). En `npm test` va una versión corta: Monza y Sepang, 20 simulaciones | Acordado en el plan de la fase |
+| 28 | **El desgaste de siete circuitos se bajó** tras comparar con las paradas reales de OpenF1 (Shanghái, Suzuka, Miami, Madrid, Singapur, Austin y Spa) | Mi estimación inicial daba dos paradas donde en 2026 se fue a una |
+| 29 | **Quedan para la Fase 3**: sanciones por límites de pista y pit lane, bandera roja, vuelta de formación y mensajes de radio del jugador. Para la Fase 8: gráficas de diferencias vuelta a vuelta, sonidos y niveles de dificultad | Reparto del §12 |

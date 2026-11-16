@@ -1,0 +1,25 @@
+{
+  "season": 2026,
+  "rounds": [
+    {"round":1,"poleS":78.518,"fastestLapS":82.09100000000001,"winnerAvgLapS":85.979,"wet":false,"avgStops":1.5,"medianStintLaps":{"MEDIUM":12,"HARD":28,"SOFT":12},"startCompounds":{"MEDIUM":15,"HARD":4,"SOFT":2}},
+    {"round":2,"poleS":92.064,"fastestLapS":95.275,"winnerAvgLapS":99.922,"wet":false,"avgStops":1.1,"medianStintLaps":{"MEDIUM":10,"HARD":46,"SOFT":5},"startCompounds":{"SOFT":2,"MEDIUM":11,"HARD":9}},
+    {"round":3,"poleS":88.77799999999999,"fastestLapS":92.432,"winnerAvgLapS":99.687,"wet":false,"avgStops":1.3,"medianStintLaps":{"MEDIUM":21.5,"HARD":31,"SOFT":1},"startCompounds":{"MEDIUM":21,"HARD":1}},
+    {"round":4,"poleS":87.798,"fastestLapS":91.869,"winnerAvgLapS":98.233,"wet":false,"avgStops":1.2,"medianStintLaps":{"MEDIUM":27,"HARD":30,"SOFT":15.5},"startCompounds":{"MEDIUM":21,"HARD":1}},
+    {"round":5,"poleS":72.578,"fastestLapS":74.21000000000001,"winnerAvgLapS":77.879,"wet":true,"avgStops":1.6,"medianStintLaps":{"SOFT":29.5,"MEDIUM":38,"HARD":38,"INTERMEDIATE":1},"startCompounds":{"SOFT":11,"INTERMEDIATE":7,"MEDIUM":4}},
+    {"round":6,"poleS":72.051,"fastestLapS":73.481,"winnerAvgLapS":110.401,"wet":false,"avgStops":5,"medianStintLaps":{"MEDIUM":30,"SOFT":5.5,"HARD":6},"startCompounds":{"MEDIUM":19,"SOFT":3}},
+    {"round":7,"poleS":74.679,"fastestLapS":80.122,"winnerAvgLapS":84.062,"wet":false,"avgStops":2.5,"medianStintLaps":{"MEDIUM":14,"HARD":24,"SOFT":11.5},"startCompounds":{"MEDIUM":13,"SOFT":7,"HARD":2}},
+    {"round":8,"poleS":66.113,"fastestLapS":70.374,"winnerAvgLapS":73.211,"wet":false,"avgStops":2.2,"medianStintLaps":{"MEDIUM":19,"HARD":26,"SOFT":17},"startCompounds":{"MEDIUM":20,"SOFT":2}},
+    {"round":9,"poleS":88.111,"fastestLapS":91.777,"winnerAvgLapS":100.603,"wet":false,"avgStops":2.2,"medianStintLaps":{"MEDIUM":21,"HARD":23,"SOFT":5},"startCompounds":{"MEDIUM":22}},
+    {"round":10,"poleS":104.36099999999999,"fastestLapS":108.89,"winnerAvgLapS":115.511,"wet":false,"avgStops":1.4,"medianStintLaps":{"MEDIUM":16.5,"HARD":24,"SOFT":11},"startCompounds":{"HARD":5,"MEDIUM":15,"SOFT":2}},
+    {"round":11,"poleS":77.207,"fastestLapS":82,"winnerAvgLapS":85.66,"wet":false,"avgStops":2.2,"medianStintLaps":{"SOFT":14,"MEDIUM":20.5,"HARD":22.5},"startCompounds":{"MEDIUM":16,"SOFT":6}},
+    {"round":12,"poleS":71.163,"fastestLapS":74.23,"winnerAvgLapS":103.956,"wet":false,"avgStops":3.3,"medianStintLaps":{"SOFT":16.5,"HARD":25.5,"MEDIUM":14},"startCompounds":{"SOFT":14,"HARD":1,"MEDIUM":7}},
+    {"round":13,"poleS":81.786,"fastestLapS":83.504,"winnerAvgLapS":125.949,"wet":false,"avgStops":1.5,"medianStintLaps":{"SOFT":3,"MEDIUM":25,"HARD":43},"startCompounds":{"SOFT":10,"MEDIUM":9,"HARD":3}},
+    {"round":14,"poleS":91.824,"fastestLapS":95.587,"winnerAvgLapS":99.364,"wet":false,"avgStops":1.2,"medianStintLaps":{"HARD":42,"MEDIUM":14,"SOFT":11.5},"startCompounds":{"HARD":12,"MEDIUM":7,"SOFT":3}},
+    {"round":15,"poleS":102.52600000000001,"fastestLapS":104.916,"winnerAvgLapS":115.336,"wet":false,"avgStops":2.1,"medianStintLaps":{"MEDIUM":15,"SOFT":15},"startCompounds":{"MEDIUM":12,"SOFT":10}},
+    {"round":16,"poleS":95.13,"fastestLapS":98.22,"winnerAvgLapS":116.997,"wet":true,"avgStops":3.6,"medianStintLaps":{"INTERMEDIATE":1,"SOFT":11,"HARD":8,"MEDIUM":7},"startCompounds":{"INTERMEDIATE":9,"SOFT":9,"MEDIUM":4}},
+    {"round":17,"poleS":91.373,"fastestLapS":95.202,"winnerAvgLapS":98.722,"wet":false,"avgStops":1.2,"medianStintLaps":{"MEDIUM":29,"SOFT":31},"startCompounds":{"MEDIUM":10,"SOFT":12}},
+    {"round":18,"poleS":94.035,"fastestLapS":97.976,"winnerAvgLapS":102.083,"wet":false,"avgStops":1.5,"medianStintLaps":{"SOFT":17.5,"HARD":31,"MEDIUM":22},"startCompounds":{"SOFT":15,"HARD":2,"MEDIUM":5}},
+    {"round":19,"poleS":76.514,"fastestLapS":79.268,"winnerAvgLapS":118.715,"wet":false,"avgStops":3,"medianStintLaps":{"MEDIUM":16,"SOFT":18},"startCompounds":{"MEDIUM":6,"SOFT":16}},
+    {"round":20,"poleS":86.745,"fastestLapS":72.689,"winnerAvgLapS":80.613,"wet":true,"avgStops":2.9,"medianStintLaps":{"INTERMEDIATE":12,"SOFT":24},"startCompounds":{"INTERMEDIATE":22}}
+  ]
+}

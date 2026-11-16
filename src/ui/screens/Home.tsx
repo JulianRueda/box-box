@@ -126,12 +126,24 @@ export function Home() {
           <h2 className="label mb-4">{t('home.modes')}</h2>
           <ul className="border-t border-line-strong">
             {MODES.map((mode, i) => (
-              <li key={mode.key} className="reveal row flex items-baseline justify-between gap-6 py-5" style={stagger(i + 2)} aria-disabled="true">
-                <div className="min-w-0">
-                  <p className="display text-2xl text-fg-3 md:text-3xl">{t(`home.mode.${mode.key}.title`)}</p>
-                  <p className="mt-1 text-sm text-fg-4">{t(`home.mode.${mode.key}.text`)}</p>
-                </div>
-                <span className="label shrink-0 border border-line-strong px-2 py-1 text-[0.6875rem]">{t('home.comingPhase', { phase: mode.phase })}</span>
+              <li key={mode.key} className="reveal" style={stagger(i + 2)}>
+                {mode.key === 'quick' ? (
+                  <Link to="/race" className="row row-link group flex items-baseline justify-between gap-6 py-5">
+                    <span className="min-w-0">
+                      <span className="display block text-2xl group-hover:text-signal md:text-3xl">{t('home.mode.quick.title')}</span>
+                      <span className="mt-1 block text-sm text-fg-3">{t('home.mode.quick.text')}</span>
+                    </span>
+                    <span className="display shrink-0 bg-signal px-3 py-2 text-sm text-white">{t('home.play')}</span>
+                  </Link>
+                ) : (
+                  <div className="row flex items-baseline justify-between gap-6 py-5" aria-disabled="true">
+                    <div className="min-w-0">
+                      <p className="display text-2xl text-fg-3 md:text-3xl">{t(`home.mode.${mode.key}.title`)}</p>
+                      <p className="mt-1 text-sm text-fg-4">{t(`home.mode.${mode.key}.text`)}</p>
+                    </div>
+                    <span className="label shrink-0 border border-line-strong px-2 py-1 text-[0.6875rem]">{t('home.comingPhase', { phase: mode.phase })}</span>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

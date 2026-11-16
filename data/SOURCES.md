@@ -86,3 +86,25 @@ Se regeneran con `npm run build-circuits`.
 ## Valoraciones — `2026/teams.json`, `2026/drivers.json`, `2026/staff.json`
 
 No son datos reales: las calcula `npm run build-ratings` a partir de los resultados. Fórmula en `docs/RATINGS.md`.
+
+## Referencias de carrera — `2026/race-facts.json`
+
+| Dato | Fuente |
+|---|---|
+| Pole, vuelta rápida y tiempo del ganador | `results.json` (Jolpica) |
+| Paradas medias, duración de los stints, compuesto de salida y si hubo neumáticos de agua | API de OpenF1: `https://api.openf1.org/v1/sessions` y `/stints` |
+
+Se regenera con `npm run update-race-facts`. Se usa para calibrar la simulación (`docs/CALIBRATION.md`).
+
+Notas:
+- "Mojado" significa que algún coche montó intermedios o lluvia. Fue el caso de Canadá, Sepang y Brasil.
+- Las paradas medias cuentan solo a quien llegó (casi) al final e incluyen las provocadas por safety car, lluvia o daños.
+- Mónaco registra 5 paradas de media: apunta a una norma de paradas obligatorias propia de esa carrera, que no se ha investigado.
+
+## Neumáticos — `2026/tyres.json`
+
+Once asignaciones confirmadas con comunicados de Pirelli y doce estimadas (`"estimated": true`). El detalle y los enlaces, en `docs/RULES_2026.md`.
+
+## Reglamento
+
+Lo confirmado y lo que queda sin confirmar, con sus fuentes, está en `docs/RULES_2026.md`.

@@ -13,7 +13,9 @@
     "test:e2e": "playwright test",
     "update-season": "tsx scripts/update-season.ts",
     "build-circuits": "tsx scripts/build-circuits.ts",
-    "build-ratings": "tsx scripts/build-ratings.ts"
+    "build-ratings": "tsx scripts/build-ratings.ts",
+    "update-race-facts": "tsx scripts/update-race-facts.ts",
+    "calibrate": "tsx scripts/calibrate.ts"
   },
   "dependencies": {
     "dexie": "^4.4.7",

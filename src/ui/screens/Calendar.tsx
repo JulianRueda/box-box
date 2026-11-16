@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import { calendar, driverName, findCircuit, findDriver, findResult, findRound, findTeam, results, teams } from '../../data/index.ts';
+import { calendar, driverName, findCircuit, findDriver, findResult, findRound, findTeam, findTyres, results, teams } from '../../data/index.ts';
 import type { Round } from '../../data/schemas.ts';
 import { constructorStandings, driverStandings } from '../../engine/season/standings.ts';
-import { PageHeader, Section, Stat } from '../components/bits.tsx';
+import { EstTag, PageHeader, Section, Stat } from '../components/bits.tsx';
 import { ConstructorStandingsTable, DriverStandingsTable, QualifyingTable, RaceTable } from '../components/tables.tsx';
 import { TrackLegend, TrackMap } from '../components/TrackMap.tsx';
 import { stagger, teamVars, useFormat } from '../format.ts';
@@ -78,6 +78,7 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
   const [tab, setTab] = useState<Tab>('race');
   const result = findResult(round.round);
   const circuit = findCircuit(round.circuitId);
+  const tyres = findTyres(round.circuitId);
   const prev = findRound(round.round - 1);
   const next = findRound(round.round + 1);
   const name = f.gp(round);
@@ -182,6 +183,17 @@ function RoundView({ round, t, f }: { round: Round; t: ReturnType<typeof useTran
                 <Stat label={t('round.overtaking')} value={<span className="num">{circuit.overtakingDifficulty}</span>} />
                 <Stat label={t('round.safetyCar')} value={<span className="num">{f.percent(circuit.safetyCarProbability)}</span>} />
                 <Stat label={t('round.rain')} value={<span className="num">{f.percent(circuit.rainProbability)}</span>} />
+                {tyres && (
+                  <Stat
+                    label={t('round.compounds')}
+                    value={
+                      <>
+                        <span className="num">{tyres.hard} · {tyres.medium} · {tyres.soft}</span>
+                        {tyres.estimated && <EstTag />}
+                      </>
+                    }
+                  />
+                )}
               </dl>
               <p className="mt-6 text-sm text-fg-4">{t('round.estimatedNote')}</p>
             </Section>

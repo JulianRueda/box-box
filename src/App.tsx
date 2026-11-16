@@ -1,5 +1,7 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './ui/components/Layout.tsx';
+import { QuickRaceSetup } from './ui/race/QuickRaceSetup.tsx';
+import { RaceScreen } from './ui/race/RaceScreen.tsx';
 import { Calendar, RoundDetail } from './ui/screens/Calendar.tsx';
 import { DriverDetail, Drivers } from './ui/screens/Drivers.tsx';
 import { Home } from './ui/screens/Home.tsx';
@@ -26,8 +28,11 @@ export function App() {
           <Route path="calendar/:round" element={<RoundDetail />} />
           <Route path="standings" element={<Standings />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="race" element={<QuickRaceSetup />} />
           <Route path="*" element={<NotFound />} />
         </Route>
+        {/* La carrera en vivo ocupa toda la pantalla, sin la navegación del juego. */}
+        <Route path="race/live" element={<RaceScreen />} />
       </Routes>
     </HashRouter>
   );

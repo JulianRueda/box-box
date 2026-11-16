@@ -23,7 +23,7 @@
     "timeLossS": 21
   },
   "downforceLevel": "medium",
-  "tyreWear": 50,
+  "tyreWear": 42,
   "overtakingDifficulty": 50,
   "safetyCarProbability": 0.5,
   "rainProbability": 0.3,

@@ -276,7 +276,7 @@ async function main(): Promise<void> {
   writeFileSync(calendarFile, JSON.stringify(fresh.calendar, null, 2) + '\n');
   writeFileSync(resultsFile, JSON.stringify(fresh.results, null, 2) + '\n');
   console.log(`\nEscrito: ${calendarFile}\n         ${resultsFile}`);
-  console.log('Ejecuta ahora `npm run build-ratings` para recalcular las valoraciones.');
+  console.log('Ejecuta ahora `npm run update-race-facts` (referencias de carrera) y `npm run build-ratings` (valoraciones).');
 }
 
 await main();

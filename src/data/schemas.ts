@@ -233,3 +233,38 @@ export type Results = z.infer<typeof resultsSchema>;
 export type Staff = z.infer<typeof staffSchema>;
 export type StaffRole = z.infer<typeof staffRoleSchema>;
 export type Circuit = z.infer<typeof circuitSchema>;
+
+// ---------------------------------------------------------------- Referencias de carrera
+
+/** Datos reales de una carrera disputada, usados para calibrar la simulación. */
+export const raceFactSchema = z.object({
+  round: z.number().int().min(1),
+  poleS: z.number().positive(),
+  fastestLapS: z.number().positive(),
+  /** Tiempo de carrera del ganador entre sus vueltas (incluye safety car y lluvia). */
+  winnerAvgLapS: z.number().positive().nullable(),
+  /** null si OpenF1 no tiene la sesión. */
+  wet: z.boolean().nullable(),
+  avgStops: z.number().min(0).nullable(),
+  medianStintLaps: z.record(z.string(), z.number()),
+  startCompounds: z.record(z.string(), z.number()),
+});
+
+export const raceFactsSchema = z.object({
+  season: z.number().int(),
+  rounds: z.array(raceFactSchema),
+});
+
+/** Compuestos de Pirelli asignados a un GP: duro, medio y blando. */
+export const tyreNominationSchema = z.object({
+  circuitId: id,
+  hard: z.enum(['C1', 'C2', 'C3', 'C4', 'C5']),
+  medium: z.enum(['C1', 'C2', 'C3', 'C4', 'C5']),
+  soft: z.enum(['C1', 'C2', 'C3', 'C4', 'C5']),
+  /** true = no se encontró el comunicado de Pirelli; es una suposición razonable. */
+  estimated: z.boolean(),
+});
+
+export type RaceFact = z.infer<typeof raceFactSchema>;
+export type RaceFacts = z.infer<typeof raceFactsSchema>;
+export type TyreNomination = z.infer<typeof tyreNominationSchema>;

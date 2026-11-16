@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calendar, circuits, drivers, findCircuit, results, staff, teams } from '../../src/data/index.ts';
+import { calendar, circuits, drivers, findCircuit, findTyres, raceFacts, results, staff, teams } from '../../src/data/index.ts';
 import { validateSeason } from '../../src/data/validate.ts';
 
 describe('datos de la temporada 2026', () => {
@@ -53,6 +53,25 @@ describe('datos de la temporada 2026', () => {
       expect(round.race.filter((e) => e.position === 1)).toHaveLength(1);
       // Quien no marca tiempo en clasificación no aparece en la API: puede haber menos de 22.
       expect(round.qualifying.length, `ronda ${round.round}`).toBeGreaterThanOrEqual(18);
+    }
+  });
+
+  it('cada ronda tiene sus tres compuestos, del más duro al más blando', () => {
+    for (const round of calendar.rounds) {
+      const tyres = findTyres(round.circuitId);
+      expect(tyres, round.circuitId).toBeDefined();
+      const n = (c: string) => Number(c.slice(1));
+      expect(n(tyres!.hard), round.circuitId).toBeLessThan(n(tyres!.medium));
+      expect(n(tyres!.medium), round.circuitId).toBeLessThan(n(tyres!.soft));
+    }
+  });
+
+  it('hay referencias reales de cada carrera disputada', () => {
+    expect(raceFacts.map((f) => f.round)).toEqual(results.rounds.map((r) => r.round));
+    for (const fact of raceFacts) {
+      expect(fact.poleS, `ronda ${fact.round}`).toBeGreaterThan(55);
+      expect(fact.fastestLapS, `ronda ${fact.round}`).toBeGreaterThan(55);
+      expect(fact.avgStops, `ronda ${fact.round}`).not.toBeNull();
     }
   });
 

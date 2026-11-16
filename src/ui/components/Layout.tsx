@@ -5,6 +5,7 @@ import { SEASON } from '../../data/index.ts';
 import { LANGUAGES } from '../../i18n/index.ts';
 
 const NAV = [
+  { to: '/race', key: 'nav.race' },
   { to: '/teams', key: 'nav.teams' },
   { to: '/drivers', key: 'nav.drivers' },
   { to: '/calendar', key: 'nav.calendar' },
@@ -78,12 +79,12 @@ export function Layout() {
       </main>
 
       {/* En el móvil la navegación va abajo, al alcance del pulgar. */}
-      <nav aria-label={t('nav.main')} className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t border-line bg-ink-950/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden">
+      <nav aria-label={t('nav.main')} className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t border-line bg-ink-950/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden">
         {NAV.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
-            className={({ isActive }) => `display flex h-14 items-center justify-center text-[0.8125rem] ${isActive ? 'text-fg shadow-[inset_0_2px_0_var(--color-signal)]' : 'text-fg-3'}`}
+            className={({ isActive }) => `display flex h-14 items-center justify-center text-[0.6875rem] ${isActive ? 'text-fg shadow-[inset_0_2px_0_var(--color-signal)]' : 'text-fg-3'}`}
           >
             {t(item.key)}
           </NavLink>

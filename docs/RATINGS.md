@@ -82,3 +82,17 @@ base `66 + 10·(1 − e^(−participaciones/60))` en todos los atributos de pilo
 5. **El nivel de carga de cada circuito es una clasificación manual**, y de ella dependen las tres notas de carga.
 
 Estas notas son el punto de partida. La Fase 2 las recalibra contra tiempos por vuelta reales (§5.4 del diseño).
+
+## Cómo usa la carrera estas notas (Fase 2)
+
+- **Coche**: su diferencia de ritmo en un circuito es la inversa de la fórmula de arriba, `(99 − nota) / 11` en porcentaje,
+  mezclando un 75 % de la nota de carga que pide el circuito y un 25 % del despliegue de energía. En carrera se multiplica
+  por 0,85: las diferencias entre coches son algo menores que a una vuelta.
+- **Piloto**: cada 14 puntos de ritmo de carrera equivalen a un 0,55 % de tiempo por vuelta.
+- **Consistencia** fija el ruido vuelta a vuelta y la probabilidad de error; **adelantamiento** y **defensa** entran en
+  cada intento de pasada; **gestión de neumáticos** y **cuidado de neumáticos** del coche alargan la vida de la goma;
+  **gestión de energía** aumenta lo que se recupera por vuelta; **fiabilidad** fija la probabilidad de avería.
+- **Jefe de mecánicos** fija el tiempo de parada; **jefe de estrategia**, lo fino que elige el plan y lo pronto que
+  reacciona a la lluvia.
+
+La calibración (`docs/CALIBRATION.md`) confirmó el orden de la parrilla sin retocar ninguna nota a mano.

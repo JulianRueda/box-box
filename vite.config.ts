@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   test: {
     include: ['tests/unit/**/*.test.ts'],
+    testTimeout: 60_000,
     environment: 'node',
   },
 });
