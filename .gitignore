@@ -17,3 +17,10 @@ public/assets/helmets/*
 # Documentos de trabajo privados: el plan de construcción y su seguimiento no se publican.
 CLAUDE.md
 PROGRESS.md
+
+# Claves y credenciales: nunca van al repo.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
